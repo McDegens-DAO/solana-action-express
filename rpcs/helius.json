@@ -1,0 +1,12 @@
+[
+    {
+        "name": "Helius 1",
+        "wallet": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "url": "https://mainnet.helius-rpc.com/?api-key=bbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    {
+        "name": "Helius 2",
+        "wallet": "ccccccccccccccccccccccccccccc",
+        "url": "https://mainnet.helius-rpc.com/?api-key=dddddddddddddddddddddddddd"
+    }
+]
