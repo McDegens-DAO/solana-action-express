@@ -1,2 +1,2 @@
 # solana-action-express
-Node-Express Solana Actions Server
+Node-Express Solana Action Server
