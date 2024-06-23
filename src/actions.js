@@ -172,9 +172,8 @@ class build {
     }
 }
 // *********************************************************************************
+
 ////////////////////////////////////////////////////////////////////////////////////
-
-
 // defines the initial config for this action and returns it to the blink ui
 app.get('/donate-config',(req,res)=>{
     let name = "donate";
@@ -202,8 +201,6 @@ app.get('/donate-config',(req,res)=>{
     }
     res.send(JSON.stringify(obj));
 });
-
-
 // builds, optimizes, serializes, base64 encodes, and sends a tx back to the blink
 app.route('/donate-build').post(async function(req,res){
     res.setHeader('Access-Control-Allow-Origin', '*'); 
@@ -233,9 +230,8 @@ app.route('/donate-build').post(async function(req,res){
     let result = await build.create(rpc,account,instructions,signers,priority,tolerance,false);
     res.send(result);
 });
-
-
 ////////////////////////////////////////////////////////////////////////////////////
+
 // *********************************************************************************
 // start the server
 app.get('/ping', (req, res) => {res.setHeader('Content-Type', 'application/json'); res.send(JSON.stringify("ok"));});
