@@ -83,7 +83,7 @@ https://actions.dialect.to/?action=solana-action:https://{YOUR.SERVER.XYZ}:8444/
 Content-Type: application/json
 // BODY
 {
-  "account": "2jcih7dUFmEQfMUXQQnL2Fkq9zMqj4jwpHqvRVe3gGLL"
+  "account": "B8owyFUUu46g8Z4JNZMXmLSc2D725zv6fcXuBewGeTyj"
 }
 ```
 
