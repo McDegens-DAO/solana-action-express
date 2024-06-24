@@ -1,26 +1,26 @@
 # solana-action-express
-Solana Actions server powered by Node and Express
+solana actions server powered by node & express
 
-This server package provides Solana Actions endpoints for Solana Blinks
+this server package provides solana actions endpoints for solana blinks
 
-Learn more about Solana Actions here: 
+learn more about Solana Actions here: 
 
 https://gist.github.com/nickfrosty/ba1cb3c9d589557396c9b12969f98039
 
-Here's a live example of a McDegens Donation Blink powered by **solana-action-express**
+here's a live example of a mcdegens donation blink powered by **solana-action-express**
 
 https://actions.dialect.to/?action=solana-action:https://actions.mcdegen.xyz:8444/donate-config
 
 ![solana blink](https://github.com/McDegens-DAO/solana-action-express/blob/main/blink.png)
 
-# Install
-Clone the repo.
+# install solana-action-express
+clone the repo
 ```javascript
 git clone https://github.com/McDegens-DAO/solana-action-express.git
 ```
 
-# RPC
-Open the rpcs/helius.json file to configure.
+# rpc settings
+open the rpcs/helius.json file to configure
 ```javascript
 [
   {
@@ -32,8 +32,8 @@ Open the rpcs/helius.json file to configure.
 ```
 Move the rpcs folder somewhere safe. i.e. server root directory.
 
-# Configure
-Open the src/actions.js file to configure.
+# configure server
+open the src/actions.js file to configure
 ```javascript
 // server settings
 const https_port = 8444; //~ port 
@@ -46,13 +46,12 @@ const ssl_key = ""; //~ ../../../ssl/keys/YOUR_KEY_FILE.key
 let tolerance = 1.2; //~ adds cu to txs in case the estimates are too low
 let priority = "High"; //~ default tx priority
 ```
-
-# Start Server
-Using Node
+# start server
+using node
 ```javascript
 node src/actions.js
 ```
-Using PM2
+using pm2
 ```javascript
 first time start
 pm2 start src/actions.js
@@ -67,6 +66,26 @@ pm2 restart actions
 pm2 stop actions
 ```
 
+# test
+test on dialect
+```javascript
+https://actions.dialect.to/?action=solana-action:https://{YOUR.SERVER.XYZ}:8444/donate-config
+```
+test with a rest client
+```javascript
+// GET
+https://actions.dialect.to/?action=solana-action:https://{YOUR.SERVER.XYZ}:8444/donate-config
+```
+```javascript
+// POST
+https://actions.dialect.to/?action=solana-action:https://{YOUR.SERVER.XYZ}:8444/donate-build?amount=0.0001
+// HEADER
+Content-Type: application/json
+// BODY
+{
+  "account": "2jcih7dUFmEQfMUXQQnL2Fkq9zMqj4jwpHqvRVe3gGLL"
+}
+```
 
 
 
