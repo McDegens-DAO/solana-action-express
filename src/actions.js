@@ -1,5 +1,5 @@
 // *********************************************************************************
-// name: solana-actions-express
+// name: solana-action-express
 // author: Dapper (@SolDapper)
 // repo: https://github.com/McDegens-DAO/solana-action-express
 // *********************************************************************************
