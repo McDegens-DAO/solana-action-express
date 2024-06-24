@@ -14,7 +14,13 @@ https://actions.dialect.to/?action=solana-action:https://actions.mcdegen.xyz:844
 ![solana blink](https://github.com/McDegens-DAO/solana-action-express/blob/main/blink.png)
 
 # Install
-Clone the repo.
+
+1. Clone the repo.
+```javascript
+git clone https://github.com/McDegens-DAO/solana-action-express.git
+```
+
+2. Clone the repo.
 ```javascript
 git clone https://github.com/McDegens-DAO/solana-action-express.git
 ```
