@@ -7,7 +7,7 @@ Learn more about Solana Actions here:
 
 https://gist.github.com/nickfrosty/ba1cb3c9d589557396c9b12969f98039
 
-Here's a live example of a McDegens Donation Blink powered by our **solana-action-express** server.
+Here's a live example of a McDegens Donation Blink powered by **solana-action-express**
 
 https://actions.dialect.to/?action=solana-action:https://actions.mcdegen.xyz:8444/donate-config
 
