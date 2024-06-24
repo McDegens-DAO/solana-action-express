@@ -13,13 +13,13 @@ https://actions.dialect.to/?action=solana-action:https://actions.mcdegen.xyz:844
 
 ![solana blink](https://github.com/McDegens-DAO/solana-action-express/blob/main/blink.png)
 
-# install solana-action-express
+# install
 clone the repo
 ```javascript
 git clone https://github.com/McDegens-DAO/solana-action-express.git
 ```
 
-# rpc settings
+# rpc
 open the rpcs/helius.json file to configure
 ```javascript
 [
@@ -32,7 +32,7 @@ open the rpcs/helius.json file to configure
 ```
 Move the rpcs folder somewhere safe. i.e. server root directory.
 
-# configure server
+# configure
 open the src/actions.js file to configure
 ```javascript
 // server settings
@@ -46,7 +46,7 @@ const ssl_key = ""; //~ ../../../ssl/keys/YOUR_KEY_FILE.key
 let tolerance = 1.2; //~ adds cu to txs in case the estimates are too low
 let priority = "High"; //~ default tx priority
 ```
-# start server
+# start
 using node
 ```javascript
 node src/actions.js
