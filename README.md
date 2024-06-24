@@ -3,7 +3,7 @@ solana actions server powered by node & express
 
 this server package provides solana actions endpoints for solana blinks
 
-learn more about Solana Actions here: 
+learn more about solana actions here: 
 
 https://gist.github.com/nickfrosty/ba1cb3c9d589557396c9b12969f98039
 
