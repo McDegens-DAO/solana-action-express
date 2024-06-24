@@ -84,7 +84,6 @@ class build {
         }
         let opti_consumed = opti_cu_res.value.unitsConsumed;
         let opti_cu_limit = Math.ceil(opti_consumed * opti_tolerance);
-        console.log("compute unit limit", opti_cu_limit);
         return opti_cu_limit;
     }
     static async getPriorityFeeEstimate(cluster,payer,priorityLevel,instructions,tables=false){
@@ -134,7 +133,7 @@ class build {
         if(_priority_==false){_priority_=priority;}
         let _wallet_= new PublicKey(_account_);
         let connection= new Connection(_rpc_,"confirmed");
-        _instructions_=[_instructions_];
+        // _instructions_=[_instructions_];
         if(_priority_=="Extreme"){_priority_="VeryHigh";}
         let _payer_={publicKey:_wallet_}
         let _cu_= null;
@@ -142,12 +141,12 @@ class build {
         if(typeof _cu_.logs != "undefined"){
             _cu_.transaction="error";
             _cu_.message="there was an error when simulating the transaction";
-            return JSON.stringify(_cu_);
+            return _cu_;
         }
         else if(_cu_==null){
             _obj_.transaction="error";
             _obj_.message="there was an error when optimizing compute limit";
-            return JSON.stringify(_obj_);
+            return _obj_;
         }
         else{
             _instructions_.unshift(ComputeBudgetProgram.setComputeUnitLimit({units:_cu_}));
@@ -167,7 +166,7 @@ class build {
             _tx_= Buffer.from(_tx_).toString("base64");
             _obj_.message="success";
             _obj_.transaction=_tx_;
-            return JSON.stringify(_obj_);
+            return _obj_;
         }
     }
 }
@@ -226,9 +225,11 @@ app.route('/donate-build').post(async function(req,res){
     let lamports = req.query.amount * 1000000000;
     let from = new PublicKey(account);
     let to = new PublicKey("GUFxwDrsLzSQ27xxTVe4y9BARZ6cENWmjzwe8XPy7AKu"); // recipient
-    let instructions = SystemProgram.transfer({fromPubkey:from, lamports:lamports, toPubkey:to});
+    let donateIx = SystemProgram.transfer({fromPubkey:from, lamports:lamports, toPubkey:to})
+    let instructions = [ donateIx ];
+    let tolerance = 2;
     let result = await build.create(rpc,account,instructions,signers,priority,tolerance,false);
-    res.send(result);
+    res.send(JSON.stringify(result));
 });
 ////////////////////////////////////////////////////////////////////////////////////
 
