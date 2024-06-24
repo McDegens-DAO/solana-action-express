@@ -12,3 +12,7 @@ Here's a live example of a McDegens Donation Blink powered by our **solana-actio
 https://actions.dialect.to/?action=solana-action:https://actions.mcdegen.xyz:8444/donate-config
 
 ![solana blink](https://github.com/McDegens-DAO/solana-action-express/blob/main/blink.png)
+
+# Install
+Clone the repo.
+git clone https://github.com/McDegens-DAO/mcburn-js.git
