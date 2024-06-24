@@ -52,9 +52,9 @@ let rpc = rpcs[rpc_id].url;
 // *********************************************************************************
 
 // *********************************************************************************
-// transaction builder class
-class build {
-    static async getComputeLimit(cluster,opti_payer,opti_ix,opti_tolerance,opti_tables=false){
+// transaction packager
+class mcbuild {
+    static async ComputeLimit(cluster,opti_payer,opti_ix,opti_tolerance,opti_tables=false){
         let connection = new Connection(cluster, 'confirmed');
         let opti_sim_limit = ComputeBudgetProgram.setComputeUnitLimit({units:1400000});
         let re_ix = [];
@@ -86,7 +86,7 @@ class build {
         let opti_cu_limit = Math.ceil(opti_consumed * opti_tolerance);
         return opti_cu_limit;
     }
-    static async getPriorityFeeEstimate(cluster,payer,priorityLevel,instructions,tables=false){
+    static async FeeEstimate(cluster,payer,priorityLevel,instructions,tables=false){
         let connection = new Connection(cluster,'confirmed',);
         let re_ix = [];
         for (let o in instructions) {re_ix.push(instructions[o]);}
@@ -128,16 +128,15 @@ class build {
         if(data < 10000){data = 10000;}
         return data;
     }
-    static async create(_rpc_,_account_,_instructions_,_signers_,_priority_=false,_tolerance_,_table_=false){
+    static async tx(_rpc_,_account_,_instructions_,_signers_,_priority_=false,_tolerance_,_table_=false){
         let _obj_={}
         if(_priority_==false){_priority_=priority;}
         let _wallet_= new PublicKey(_account_);
         let connection= new Connection(_rpc_,"confirmed");
-        // _instructions_=[_instructions_];
         if(_priority_=="Extreme"){_priority_="VeryHigh";}
         let _payer_={publicKey:_wallet_}
         let _cu_= null;
-        _cu_= await this.getComputeLimit(_rpc_,_payer_,_instructions_,_tolerance_,_table_);
+        _cu_= await this.ComputeLimit(_rpc_,_payer_,_instructions_,_tolerance_,_table_);
         if(typeof _cu_.logs != "undefined"){
             _cu_.transaction="error";
             _cu_.message="there was an error when simulating the transaction";
@@ -150,12 +149,12 @@ class build {
         }
         else{
             _instructions_.unshift(ComputeBudgetProgram.setComputeUnitLimit({units:_cu_}));
-            let get_priority = await this.getPriorityFeeEstimate(_rpc_,_payer_,_priority_,_instructions_,_table_);
+            let get_priority = await this.FeeEstimate(_rpc_,_payer_,_priority_,_instructions_,_table_);
             _instructions_.unshift(ComputeBudgetProgram.setComputeUnitPrice({microLamports:get_priority}));
             let _message_=null;
             let _blockhash_ = (await connection.getRecentBlockhash('confirmed')).blockhash;
             if(_table_!=false){
-                _message_= new TransactionMessage({payerKey:_wallet_,recentBlockhash:_blockhash_,instructions:_instructions_,}).compileToV0Message([_table_]);
+                _message_= new TransactionMessage({payerKey:_wallet_,recentBlockhash:_blockhash_,instructions:_instructions_,}).compileToV0Message(_table_);
             }
             else{
                 _message_= new TransactionMessage({payerKey:_wallet_,recentBlockhash:_blockhash_,instructions:_instructions_,}).compileToV0Message([]);
@@ -228,7 +227,7 @@ app.route('/donate-build').post(async function(req,res){
     let donateIx = SystemProgram.transfer({fromPubkey:from, lamports:lamports, toPubkey:to})
     let instructions = [ donateIx ];
     let tolerance = 2;
-    let result = await build.create(rpc,account,instructions,signers,priority,tolerance,false);
+    let result = await mcbuild.tx(rpc,account,instructions,signers,priority,tolerance,false);
     res.send(JSON.stringify(result));
 });
 ////////////////////////////////////////////////////////////////////////////////////
