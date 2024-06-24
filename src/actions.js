@@ -13,8 +13,8 @@ const rpc_file = ""; //~ ../../../rpcs/helius.json
 const rpc_id = 0; //~ default rpc selection from the file above
 const ssl_crt = ""; //~ ../../../ssl/certs/YOUR_CERT_FILE.crt
 const ssl_key = ""; //~ ../../../ssl/keys/YOUR_KEY_FILE.key
-const tolerance = 1.2; //~ adds cu to txs in case the estimates are too low
-const priority = "High"; //~ default tx priority
+let tolerance = 1.2; //~ adds cu to txs in case the estimates are too low
+let priority = "High"; //~ default tx priority
 // *********************************************************************************
 
 // *********************************************************************************
@@ -128,7 +128,7 @@ class mcbuild {
         if(data < 10000){data = 10000;}
         return data;
     }
-    static async tx(_rpc_,_account_,_instructions_,_signers_,_priority_=false,_tolerance_,_table_=false){
+    static async tx(_rpc_,_account_,_instructions_,_signers_,_priority_=false,_tolerance_,_serialize_=false,_encode_=false,_table_=false){
         let _obj_={}
         if(_priority_==false){_priority_=priority;}
         let _wallet_= new PublicKey(_account_);
@@ -161,8 +161,12 @@ class mcbuild {
             }
             let _tx_= new VersionedTransaction(_message_);
             if(_signers_!=false){_tx_.sign(_signers_);}
-            _tx_=_tx_.serialize();
-            _tx_= Buffer.from(_tx_).toString("base64");
+            if(_serialize_ === true){
+                _tx_=_tx_.serialize();
+            }
+            if(_encode_ === true){
+                _tx_= Buffer.from(_tx_).toString("base64");
+            }
             _obj_.message="success";
             _obj_.transaction=_tx_;
             return _obj_;
@@ -206,28 +210,32 @@ app.route('/donate-build').post(async function(req,res){
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
     res.setHeader('Content-Encoding', 'compress');
     res.setHeader('Content-Type', 'application/json');
-    let response = {}
+    let err = {}
     if(typeof req.body.account == "undefined"){
-      response.transaction = "error";
-      response.message = "action did not receive an account";
-      res.send(JSON.stringify(response));
+      err.transaction = "error";
+      err.message = "action did not receive an account";
+      res.send(JSON.stringify(err));
     }
     else if(typeof req.query.amount == "undefined"){
-      response.transaction = "error";
-      response.message = "action did not receive an amount to send";
-      res.send(JSON.stringify(response));
+      err.transaction = "error";
+      err.message = "action did not receive an amount to send";
+      res.send(JSON.stringify(err));
     }
-    if(typeof req.query.priority=="undefined"){req.query.priority=priority;}
-    let table = false;
-    let signers = false;
+    if(typeof req.query.priority != "undefined"){
+        priority = req.query.priority;
+    }
     let account = req.body.account;
+    let signers = false;
+    let serialize = true;
+    let encode = true;
+    let table = false;
     let lamports = req.query.amount * 1000000000;
     let from = new PublicKey(account);
     let to = new PublicKey("GUFxwDrsLzSQ27xxTVe4y9BARZ6cENWmjzwe8XPy7AKu"); // recipient
     let donateIx = SystemProgram.transfer({fromPubkey:from, lamports:lamports, toPubkey:to})
     let instructions = [ donateIx ];
-    let tolerance = 2;
-    let result = await mcbuild.tx(rpc,account,instructions,signers,priority,tolerance,false);
+    tolerance = 2;
+    let result = await mcbuild.tx(rpc,account,instructions,signers,priority,tolerance,serialize,encode,table);
     res.send(JSON.stringify(result));
 });
 ////////////////////////////////////////////////////////////////////////////////////
