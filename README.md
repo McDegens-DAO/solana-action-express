@@ -1,7 +1,11 @@
 # solana-action-express
 Solana Actions server powered by Node and Express
 
-This server package provides Solana Action endpoints for Solana Blinks
+This server package provides Solana Actions endpoints for Solana Blinks
+
+Learn more about Solana Actions here: 
+
+https://gist.github.com/nickfrosty/ba1cb3c9d589557396c9b12969f98039
 
 Here's a live example of a McDegens Donation Blink powered by a **solana-action-express** server.
 
