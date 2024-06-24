@@ -16,5 +16,5 @@ https://actions.dialect.to/?action=solana-action:https://actions.mcdegen.xyz:844
 # Install
 Clone the repo.
 ```javascript
-git clone https://github.com/McDegens-DAO/mcburn-js.git
+git clone https://github.com/McDegens-DAO/solana-action-express.git
 ```
