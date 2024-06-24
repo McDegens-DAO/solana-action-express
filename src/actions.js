@@ -225,13 +225,14 @@ app.route('/donate-build').post(async function(req,res){
         priority = req.query.priority;
     }
     let account = req.body.account;
+    let recipient = "GUFxwDrsLzSQ27xxTVe4y9BARZ6cENWmjzwe8XPy7AKu";
     let signers = false;
     let serialize = true;
     let encode = true;
     let table = false;
     let lamports = req.query.amount * 1000000000;
     let from = new PublicKey(account);
-    let to = new PublicKey("GUFxwDrsLzSQ27xxTVe4y9BARZ6cENWmjzwe8XPy7AKu"); // recipient
+    let to = new PublicKey(recipient); // recipient
     let donateIx = SystemProgram.transfer({fromPubkey:from, lamports:lamports, toPubkey:to})
     let instructions = [ donateIx ];
     tolerance = 2;
