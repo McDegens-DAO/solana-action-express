@@ -153,12 +153,12 @@ it's important to note that in order for a blink to render on X the page you are
 # x users
 users on x need to have a supporting wallet or the dialect extension to see the blinks.
 
-supporting wallets/extensions
+**supporting wallets/extensions**
 
 backpack
 
-phantom - enable in settings under "experimental features"
+phantom (enable in settings under "experimental features")
 
-solflare - soon
+solflare (soon)
 
 dialect
