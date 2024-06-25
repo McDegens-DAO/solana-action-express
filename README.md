@@ -125,6 +125,9 @@ https://dial.to/?action=solana-action:https://{YOUR.SERVER.XYZ}:8444/donate-conf
 unfurling test
 
 go to: https://dial.to
+
 search: yourwebsite.xyz
 
 if your blink is active it will load!
+
+if not, use the browsers code inspector to debug
