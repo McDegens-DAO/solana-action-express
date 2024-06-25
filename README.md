@@ -17,6 +17,9 @@ https://actions.dialect.to/?action=solana-action:https://actions.mcdegen.xyz:844
 ![solana blink](https://github.com/McDegens-DAO/solana-action-express/blob/main/blink.png)
 
 # install
+
+please note this repo needs to run on a deployed server and will not run on localhost due to its ssl requirements.
+
 clone the repo
 ```javascript
 git clone https://github.com/McDegens-DAO/solana-action-express.git
