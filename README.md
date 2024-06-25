@@ -102,10 +102,6 @@ Add the following:
 ```
 
 # test
-test on dialect
-```javascript
-https://dial.to/?action=solana-action:https://{YOUR.SERVER.XYZ}:8444/donate-config
-```
 test with a rest client
 ```javascript
 // GET
@@ -122,4 +118,13 @@ Content-Type: application/json
 }
 ```
 
+test on dialect
+```javascript
+https://dial.to/?action=solana-action:https://{YOUR.SERVER.XYZ}:8444/donate-config
+```
+unfurling test
 
+go to: https://dial.to
+search: https://yourwebsite.xyz
+
+if your blink is active it will load!
