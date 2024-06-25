@@ -11,11 +11,10 @@ https://github.com/solana-developers/solana-actions
 
 support for this repo: https://discord.gg/2wxSwjuxTc
 
-here's a live example of a mcdegens donation blink powered by **solana-action-express**
+live example mcdegens donation blink powered by **solana-action-express**
 
 https://actions.dialect.to/?action=solana-action:https://actions.mcdegen.xyz:8444/donate-config
 ![solana blink](https://github.com/McDegens-DAO/solana-action-express/blob/main/blink.png)
-
 
 # install
 clone the repo
