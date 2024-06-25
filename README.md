@@ -104,16 +104,16 @@ Add the following:
 # test
 test on dialect
 ```javascript
-https://actions.dialect.to/?action=solana-action:https://{YOUR.SERVER.XYZ}:8444/donate-config
+https://dial.to/?action=solana-action:https://{YOUR.SERVER.XYZ}:8444/donate-config
 ```
 test with a rest client
 ```javascript
 // GET
-https://actions.dialect.to/?action=solana-action:https://{YOUR.SERVER.XYZ}:8444/donate-config
+https://dial.to/?action=solana-action:https://{YOUR.SERVER.XYZ}:8444/donate-config
 ```
 ```javascript
 // POST
-https://actions.dialect.to/?action=solana-action:https://{YOUR.SERVER.XYZ}:8444/donate-build?amount=0.0001
+https://dial.to/?action=solana-action:https://{YOUR.SERVER.XYZ}:8444/donate-build?amount=0.0001
 // HEADER
 Content-Type: application/json
 // BODY
