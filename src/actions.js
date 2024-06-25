@@ -233,7 +233,7 @@ app.route('/donate-build').post(async function(req,res){
     let lamports = req.query.amount * 1000000000;
     let from = new PublicKey(account);
     let to = new PublicKey(recipient); // recipient
-    let donateIx = SystemProgram.transfer({fromPubkey:from, lamports:lamports, toPubkey:to})
+    let donateIx = SystemProgram.transfer({fromPubkey:from, lamports:lamports, toPubkey:to});
     let instructions = [ donateIx ];
     tolerance = 2;
     let result = await mcbuild.tx(rpc,account,instructions,signers,priority,tolerance,serialize,encode,table);
