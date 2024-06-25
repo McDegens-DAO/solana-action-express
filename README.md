@@ -156,6 +156,9 @@ users on x need to have a supporting wallet or the dialect extension to see the 
 supporting wallets/extensions
 
 backpack
+
 phantom - enable in settings under "experimental features"
+
 solflare - soon
+
 dialect
