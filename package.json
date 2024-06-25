@@ -1,7 +1,7 @@
 {
     "name": "solana-action-express",
     "version": "0.0.1",
-    "description": "express powered api server for solana actions",
+    "description": "solana actions api server",
     "main": "src/actions.js",
     "type": "module",
     "dependencies": {
