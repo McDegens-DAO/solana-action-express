@@ -42,7 +42,7 @@ open the rpcs/helius.json file to configure
 ```
 Move the rpcs folder somewhere safe. i.e. server root directory.
 
-# configure
+# config
 open the src/actions.js file to configure
 ```javascript
 // server settings
