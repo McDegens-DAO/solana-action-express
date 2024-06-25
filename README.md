@@ -79,31 +79,10 @@ pm2 restart actions
 pm2 stop actions
 ```
 
-# test
-test on dialect
-```javascript
-https://actions.dialect.to/?action=solana-action:https://{YOUR.SERVER.XYZ}:8444/donate-config
-```
-test with a rest client
-```javascript
-// GET
-https://actions.dialect.to/?action=solana-action:https://{YOUR.SERVER.XYZ}:8444/donate-config
-```
-```javascript
-// POST
-https://actions.dialect.to/?action=solana-action:https://{YOUR.SERVER.XYZ}:8444/donate-build?amount=0.0001
-// HEADER
-Content-Type: application/json
-// BODY
-{
-  "account": "B8owyFUUu46g8Z4JNZMXmLSc2D725zv6fcXuBewGeTyj"
-}
-```
-
-# active
+# activate
 actions.json
 
-In the root of your primary app, create a file named: actions.json
+In the root of your primary app domain, create a file named: actions.json
 
 Website: yourwebsite.xyz
 
@@ -122,5 +101,25 @@ Add the following:
 }
 ```
 
+# test
+test on dialect
+```javascript
+https://actions.dialect.to/?action=solana-action:https://{YOUR.SERVER.XYZ}:8444/donate-config
+```
+test with a rest client
+```javascript
+// GET
+https://actions.dialect.to/?action=solana-action:https://{YOUR.SERVER.XYZ}:8444/donate-config
+```
+```javascript
+// POST
+https://actions.dialect.to/?action=solana-action:https://{YOUR.SERVER.XYZ}:8444/donate-build?amount=0.0001
+// HEADER
+Content-Type: application/json
+// BODY
+{
+  "account": "7Z3LJB2rxV4LiRBwgwTcufAWxnFTVJpcoCMiCo8Z5Ere"
+}
+```
 
 
