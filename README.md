@@ -148,7 +148,7 @@ it's important to note that in order for a blink to render on X the page you are
   <meta property="og:url" content="" />
   <meta property="og:description" content="" />
 ```
-# X users
+# x users
 users on x need to have a supporting wallet or the dialect extension to see the blinks.
 
 supporting wallets/extensions
