@@ -3,7 +3,11 @@ solana actions server powered by node & express
 
 this server package provides solana actions endpoints for solana blinks
 
-official solana actions docs here: https://github.com/solana-developers/solana-actions
+official solana actions docs here: 
+
+https://solana.com/docs/advanced/actions
+
+https://github.com/solana-developers/solana-actions
 
 here's a live example of a mcdegens donation blink powered by **solana-action-express**
 
