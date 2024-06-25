@@ -9,7 +9,7 @@ https://solana.com/docs/advanced/actions
 
 https://github.com/solana-developers/solana-actions
 
-support for this repo: https://discord.gg/2wxSwjuxTc
+support for this repo: https://discord.gg/Z9bUEf8gYb
 
 live example mcdegens donation blink powered by **solana-action-express**
 
