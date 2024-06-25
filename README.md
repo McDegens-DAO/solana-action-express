@@ -16,6 +16,10 @@ clone the repo
 ```javascript
 git clone https://github.com/McDegens-DAO/solana-action-express.git
 ```
+move the files
+```javascript
+mv solana-action-express/* .
+```
 
 # rpc
 open the rpcs/helius.json file to configure
