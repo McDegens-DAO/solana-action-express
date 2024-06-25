@@ -24,6 +24,10 @@ move the files
 ```javascript
 mv solana-action-express/* .
 ```
+install dependencies
+```javascript
+npm install
+```
 
 # rpc
 open the rpcs/helius.json file to configure
@@ -52,6 +56,7 @@ const ssl_key = ""; //~ ../../../ssl/keys/YOUR_KEY_FILE.key
 let tolerance = 1.2; //~ adds cu to txs in case the estimates are too low
 let priority = "High"; //~ default tx priority
 ```
+
 # start
 using node
 ```javascript
