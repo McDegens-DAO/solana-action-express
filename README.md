@@ -105,9 +105,9 @@ actions.json
 
 In the root of your primary app, create a file named: actions.json
 
-Website: https://yourwebsite.xyz
+Website: yourwebsite.xyz
 
-Actions: https://yourwebsite/actions.json
+Actions: yourwebsite/actions.json
 
 Add the following:
 
