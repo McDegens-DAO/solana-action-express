@@ -100,5 +100,27 @@ Content-Type: application/json
 }
 ```
 
+# active
+actions.json
+
+In the root of your primary app, create a file named: actions.json
+
+Website: https://yourwebsite.xyz
+
+Actions: https://yourwebsite/actions.json
+
+Add the following:
+
+```javascript
+{
+  "rules": [
+    {
+      "pathPattern": "*",
+      "apiPath": "https://{YOUR.SERVER.XYZ}:8444/donate-config"
+    }
+  ]
+}
+```
+
 
 
