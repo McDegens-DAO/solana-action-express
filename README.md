@@ -131,3 +131,29 @@ search: yourwebsite.xyz
 if your blink is active it will load!
 
 if not, use the browsers code inspector to debug
+
+# rendering on x
+it's important to note that in order for a blink to render on X the page you are sharing on X (i.e. https://yourwebsite.xyz) must have a twitter-card metatags. We use the following tags. 
+```javascript
+  <title>Page Title</title>
+  <meta name="description" content="" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@xHandle" />
+  <meta name="twitter:creator" content="@xHandle" />
+  <meta name="twitter:title" content="" />
+  <meta name="twitter:description" content="" />
+  <meta name="twitter:image" content="" />
+  <meta property="og:title" content="" />
+  <meta property="og:image" content="" />
+  <meta property="og:url" content="" />
+  <meta property="og:description" content="" />
+```
+# X users
+users on x need to have a supporting wallet or the dialect extension to see the blinks.
+
+supporting wallets/extensions
+
+backpack
+phantom - enable in settings under "experimental features"
+solflare - soon
+dialect
