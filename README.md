@@ -94,7 +94,7 @@ Add the following:
 {
   "rules": [
     {
-      "pathPattern": "*",
+      "pathPattern": "/donate",
       "apiPath": "https://{YOUR.SERVER.XYZ}:8444/donate-config"
     }
   ]
@@ -158,7 +158,7 @@ unfurling test
 
 go to: https://dial.to
 
-search: yourwebsite.xyz
+search: yourwebsite.xyz/donate
 
 if your blink is active it will load!
 
