@@ -107,7 +107,7 @@ Add the following:
 test with a rest client
 ```javascript
 // GET
-https://dial.to/?action=solana-action:https://{YOUR.SERVER.XYZ}:8444/donate-config
+https://{YOUR.SERVER.XYZ}:8444/donate-config
 ```
 ```javascript
 // RESPONSE
@@ -135,7 +135,7 @@ https://dial.to/?action=solana-action:https://{YOUR.SERVER.XYZ}:8444/donate-conf
 
 ```javascript
 // POST
-https://dial.to/?action=solana-action:https://{YOUR.SERVER.XYZ}:8444/donate-build?amount=0.0001
+https://{YOUR.SERVER.XYZ}:8444/donate-build?amount=0.0001
 // HEADER
 Content-Type: application/json
 // BODY
