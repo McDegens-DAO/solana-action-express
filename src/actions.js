@@ -13,8 +13,6 @@ const rpc_file = ""; //~ ../../../rpcs/helius.json
 const rpc_id = 0; //~ default rpc selection from the file above
 const ssl_crt = ""; //~ ../../../ssl/certs/YOUR_CERT_FILE.crt
 const ssl_key = ""; //~ ../../../ssl/keys/YOUR_KEY_FILE.key
-let tolerance = 1.2; //~ adds cu to txs in case the estimates are too low
-let priority = "High"; //~ default tx priority
 // *********************************************************************************
 
 // *********************************************************************************
@@ -54,6 +52,49 @@ let rpc = rpcs[rpc_id].url;
 // *********************************************************************************
 // transaction packager
 class mcbuild {
+    static async status(cluster,sig,max=10,int=4){
+        return await new Promise(resolve => {
+            let start = 1;
+            let connection = null;
+            connection = new Connection(cluster, "confirmed");
+            let intervalID = setInterval(async()=>{
+            let tx_status = null;
+            tx_status = await connection.getSignatureStatuses([sig], {searchTransactionHistory: true,});
+            console.log(start+": "+sig);
+            if (tx_status != null && typeof tx_status.value != "undefined"){ 
+                console.log(tx_status.value);
+            }
+            else{
+                console.log("failed to get status...");
+            }
+            if (tx_status == null || 
+            typeof tx_status.value == "undefined" || 
+            tx_status.value == null || 
+            tx_status.value[0] == null || 
+            typeof tx_status.value[0] == "undefined" || 
+            typeof tx_status.value[0].confirmationStatus == "undefined"){} 
+            else if(tx_status.value[0].confirmationStatus == "processed"){
+                start = 1;
+            }
+            else if(tx_status.value[0].confirmationStatus == "confirmed"){
+                start = 1;
+            }
+            else if (tx_status.value[0].confirmationStatus == "finalized"){
+                if(tx_status.value[0].err != null){
+                resolve('program error!');
+                clearInterval(intervalID);
+                }
+                resolve('finalized');
+                clearInterval(intervalID);
+            }
+            start++;
+            if(start == max + 1){
+                resolve((max * int)+' seconds max wait reached');
+                clearInterval(intervalID);
+            }
+            },(int * 1000));
+        });  
+    }
     static async ComputeLimit(cluster,opti_payer,opti_ix,opti_tolerance,opti_tables=false){
         let connection = new Connection(cluster, 'confirmed');
         let opti_sim_limit = ComputeBudgetProgram.setComputeUnitLimit({units:1400000});
@@ -128,14 +169,25 @@ class mcbuild {
         if(data < 10000){data = 10000;}
         return data;
     }
-    static async tx(_rpc_,_account_,_instructions_,_signers_,_priority_=false,_tolerance_,_serialize_=false,_encode_=false,_table_=false){
-        let _obj_={}
-        if(_priority_==false){_priority_=priority;}
-        let _wallet_= new PublicKey(_account_);
-        let connection= new Connection(_rpc_,"confirmed");
-        if(_priority_=="Extreme"){_priority_="VeryHigh";}
-        let _payer_={publicKey:_wallet_}
-        let _cu_= null;
+    static async tx(_data_){
+    let _obj_={};let _rpc_;let _account_;let _instructions_;let _signers_;let _priority_;let _tolerance_;let _serialize_;let _encode_;let _table_;let _compute_;let _fees_;
+    if(typeof _data_.rpc=="undefined"){_obj_.transaction="mcbuild error";_obj_.message="missing rpc";return _obj_;}else{_rpc_=_data_.rpc;}
+    if(typeof _data_.account=="undefined"){_obj_.transaction="mcbuild error";_obj_.message="missing account";return _obj_;}else{_account_=_data_.account;}
+    if(typeof _data_.instructions=="undefined"){_obj_.transaction="mcbuild error";_obj_.message="missing instructions";return _obj_;}else{_instructions_=_data_.instructions;}
+    if(typeof _data_.signers=="undefined"){_signers_=false;}else{_signers_=_data_.signers;}
+    if(typeof _data_.priority=="undefined"){_priority_="Medium";}else{_priority_=_data_.priority;}
+    if(typeof _data_.tolerance=="undefined"){_tolerance_="1.1";}else{_tolerance_=_data_.tolerance;}
+    if(typeof _data_.serialize=="undefined"){_serialize_=false;}else{_serialize_=_data_.serialize;}
+    if(typeof _data_.encode=="undefined"){_encode_=false;}else{_encode_=_data_.encode;}
+    if(typeof _data_.tables=="undefined"){_table_=false;}else{_table_=_data_.tables;}
+    if(typeof _data_.compute=="undefined"){_compute_=true;}else{_compute_=_data_.compute;}
+    if(typeof _data_.fees=="undefined"){_fees_=true;}else{_fees_=_data_.fees;}
+    let _wallet_= new PublicKey(_account_);
+    let connection= new Connection(_rpc_,"confirmed");
+    if(_priority_=="Extreme"){_priority_="VeryHigh";}
+    let _payer_={publicKey:_wallet_}
+    if(_compute_ != false){
+        let _cu_ = null;
         _cu_= await this.ComputeLimit(_rpc_,_payer_,_instructions_,_tolerance_,_table_);
         if(typeof _cu_.logs != "undefined"){
             _cu_.transaction="error";
@@ -147,35 +199,44 @@ class mcbuild {
             _obj_.message="there was an error when optimizing compute limit";
             return _obj_;
         }
-        else{
-            _instructions_.unshift(ComputeBudgetProgram.setComputeUnitLimit({units:_cu_}));
+        _instructions_.unshift(ComputeBudgetProgram.setComputeUnitLimit({units:_cu_}));
+        }
+        if(_fees_ != false){
             let get_priority = await this.FeeEstimate(_rpc_,_payer_,_priority_,_instructions_,_table_);
             _instructions_.unshift(ComputeBudgetProgram.setComputeUnitPrice({microLamports:get_priority}));
-            let _message_=null;
-            let _blockhash_ = (await connection.getRecentBlockhash('confirmed')).blockhash;
-            if(_table_!=false){
-                _message_= new TransactionMessage({payerKey:_wallet_,recentBlockhash:_blockhash_,instructions:_instructions_,}).compileToV0Message(_table_);
-            }
-            else{
-                _message_= new TransactionMessage({payerKey:_wallet_,recentBlockhash:_blockhash_,instructions:_instructions_,}).compileToV0Message([]);
-            }
-            let _tx_= new VersionedTransaction(_message_);
-            if(_signers_!=false){_tx_.sign(_signers_);}
-            if(_serialize_ === true){
-                _tx_=_tx_.serialize();
-            }
-            if(_encode_ === true){
-                _tx_= Buffer.from(_tx_).toString("base64");
-            }
+        }
+        let _message_=null;
+        let _blockhash_ = (await connection.getRecentBlockhash('confirmed')).blockhash;
+        if(_table_!=false){
+            _message_= new TransactionMessage({payerKey:_wallet_,recentBlockhash:_blockhash_,instructions:_instructions_,}).compileToV0Message(_table_);
+        }
+        else{
+            _message_= new TransactionMessage({payerKey:_wallet_,recentBlockhash:_blockhash_,instructions:_instructions_,}).compileToV0Message([]);
+        }
+        let _tx_= new VersionedTransaction(_message_);
+        if(_signers_!=false){
+            _tx_.sign(_signers_);
+        }
+        if(_serialize_ === true){
+            _tx_=_tx_.serialize();
+        }
+        if(_encode_ === true){
+            _tx_= Buffer.from(_tx_).toString("base64");
+        }
+        if(_serialize_ == false || _encode_ == false){
+            _obj_ = _tx_;
+        }
+        else{
             _obj_.message="success";
             _obj_.transaction=_tx_;
-            return _obj_;
         }
+        return _obj_;
     }
 }
 // *********************************************************************************
 
-////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////// DONATE ACTION ///////////////////////////////////////
 // defines the initial config for this action and returns it to the blink ui
 app.get('/donate-config',(req,res)=>{
     let name = "donate";
@@ -191,7 +252,7 @@ app.get('/donate-config',(req,res)=>{
     "actions": [
         {
           "label": "Send",
-          "href": server_host+port+"/"+name+"-build?amount={amount}",
+          "href": server_host+port+"/"+name+"-build?amount={amount}&priority=High",
           "parameters": [
             {
               "name": "amount", // input field name
@@ -221,25 +282,34 @@ app.route('/donate-build').post(async function(req,res){
       err.message = "action did not receive an amount to send";
       res.send(JSON.stringify(err));
     }
-    if(typeof req.query.priority != "undefined"){
-        priority = req.query.priority;
-    }
-    let account = req.body.account;
-    let recipient = "GUFxwDrsLzSQ27xxTVe4y9BARZ6cENWmjzwe8XPy7AKu";
-    let signers = false;
-    let serialize = true;
-    let encode = true;
-    let table = false;
+
+    // create instructions
     let lamports = req.query.amount * 1000000000;
-    let from = new PublicKey(account);
-    let to = new PublicKey(recipient); // recipient
+    let from = new PublicKey(req.body.account);
+    let to = new PublicKey("GUFxwDrsLzSQ27xxTVe4y9BARZ6cENWmjzwe8XPy7AKu");
     let donateIx = SystemProgram.transfer({fromPubkey:from, lamports:lamports, toPubkey:to});
-    let instructions = [ donateIx ];
-    tolerance = 2;
-    let result = await mcbuild.tx(rpc,account,instructions,signers,priority,tolerance,serialize,encode,table);
-    res.send(JSON.stringify(result));
+    // create instructions
+
+    // build transaction
+    let _tx_ = {};
+    _tx_.rpc = rpc;                     // string : required
+    _tx_.account = req.body.account;    // string : required
+    _tx_.instructions = [ donateIx ];   // array  : required
+    _tx_.signers = false;               // array  : default false
+    _tx_.serialize = true;              // bool   : default false
+    _tx_.encode = true;                 // bool   : default false
+    _tx_.table = false;                 // bool   : default false
+    _tx_.tolerance = 2;                 // int    : default 1.1    
+    _tx_.compute = false;               // bool   : default true
+    _tx_.fees = true;                   // bool   : default true
+    _tx_.priority = req.query.priority; // string : VeryHigh,High,Medium,Low,Min : default Medium
+    let tx = await mcbuild.tx(_tx_);
+    // build transaction
+   
+    res.send(JSON.stringify(tx));
 });
 ////////////////////////////////////////////////////////////////////////////////////
+
 
 // *********************************************************************************
 // start the server
@@ -249,5 +319,5 @@ key:fs.readFileSync(ssl_key,'utf8'),
 cert:fs.readFileSync(ssl_crt,'utf8')};
 const httpsServer = https.createServer(credentials, app);
 httpsServer.listen(https_port);
-console.log('solana actions server running on port '+https_port);
+console.log('solana-actions-express running on port '+https_port);
 // ******************************************************************************
