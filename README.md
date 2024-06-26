@@ -183,7 +183,7 @@ it's important to note that in order for a blink to render on X the page you are
   <meta property="og:description" content="" />
 ```
 # actions registration
-It is currently necessary to register the domain of your actions server or your blinks will not render on x.
+It is currently necessary to register the domain of your actions server or else your blinks will not render on x.
 
 This is dialect's google form to request approval: 
 
