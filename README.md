@@ -182,6 +182,10 @@ it's important to note that in order for a blink to render on X the page you are
   <meta property="og:url" content="" />
   <meta property="og:description" content="" />
 ```
+you can test that your page is twitter-card enabled using this tool:
+
+https://www.bannerbear.com/tools/twitter-card-preview-tool/
+
 # actions registration
 It is currently necessary to register the domain of your actions server or else your blinks will not render on x.
 
