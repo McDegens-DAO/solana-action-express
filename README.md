@@ -88,7 +88,7 @@ In the root of your primary app domain, create a file named: actions.json
 
 Website: yourwebsite.xyz
 
-Actions: yourwebsite/actions.json
+Actions: yourwebsite.xyz/actions.json
 
 Add the following:
 
