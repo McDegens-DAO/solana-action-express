@@ -167,7 +167,7 @@ if your blink is active it will load!
 if not, use the browsers code inspector to debug
 
 # rendering on x
-it's important to note that in order for a blink to render on X the page you are sharing on X (i.e. https://yourwebsite.xyz) must have twitter-card metatags. we use the following tags:
+it's important to note that in order for a blink to render on x the page you are sharing on X (i.e. https://yourwebsite.xyz) must have twitter-card metatags. we use the following tags:
 ```javascript
   <title>Page Title</title>
   <meta name="description" content="" />
