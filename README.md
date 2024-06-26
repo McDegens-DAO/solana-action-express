@@ -150,10 +150,10 @@ it's important to note that in order for a blink to render on X the page you are
   <meta property="og:url" content="" />
   <meta property="og:description" content="" />
 ```
-# actions domain registration
-It is currently necessary to register the domain of your actions server or your blinka will not display on twitter.
+# actions registration
+It is currently necessary to register the domain of your actions server or your blinks will not render on x.
 
-This is the Dialect's google form to request approval: 
+This is dialect's google form to request approval: 
 
 https://docs.google.com/forms/d/1YWt44VzqvSjJsvoqoOElPXnLmynABY2DS45UTVcm2a8/viewform
 
