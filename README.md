@@ -57,8 +57,6 @@ const rpc_file = ""; //~ ../../../rpcs/helius.json
 const rpc_id = 0; //~ default rpc selection from the file above
 const ssl_crt = ""; //~ ../../../ssl/certs/YOUR_CERT_FILE.crt
 const ssl_key = ""; //~ ../../../ssl/keys/YOUR_KEY_FILE.key
-let tolerance = 1.2; //~ adds cu to txs in case the estimates are too low
-let priority = "High"; //~ default tx priority
 ```
 
 # start
