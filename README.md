@@ -194,7 +194,7 @@ This is dialect's google form to request approval:
 https://docs.google.com/forms/d/1YWt44VzqvSjJsvoqoOElPXnLmynABY2DS45UTVcm2a8/viewform
 
 # x users
-users on x need to have a supporting wallet or the dialect extension to see the blinks.
+users on x need to have a supporting wallet or the dialect extension to see the blinks. otherwise the post will default to the normal twitter-card.
 
 **supporting wallets/extensions**
 
