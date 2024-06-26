@@ -150,6 +150,13 @@ it's important to note that in order for a blink to render on X the page you are
   <meta property="og:url" content="" />
   <meta property="og:description" content="" />
 ```
+# actions domain registration
+It is currently necessary to register the domain of your actions server or your blinka will not display on twitter.
+
+This is the Dialect's google form to request approval: 
+
+https://docs.google.com/forms/d/1YWt44VzqvSjJsvoqoOElPXnLmynABY2DS45UTVcm2a8/viewform
+
 # x users
 users on x need to have a supporting wallet or the dialect extension to see the blinks.
 
