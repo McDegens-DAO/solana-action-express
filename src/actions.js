@@ -36,7 +36,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 const app=express(); app.use(bodyParser.json()); app.use(cors({origin:true}));
-let http_port; if(port!=false){http_port=":"+port;}; let proto; if(server_host.includes("https:")){protocol=https;proto="https";}
+let http_port=":"+port; let proto; if(server_host.includes("https:")){protocol=https;proto="https";}
 else{protocol=http;proto="http";} const rpcs=JSON.parse(fs.readFileSync(rpc_file).toString()); let rpc=rpcs[rpc_id].url;
 app.use(function(req,res,next) {
   res.setHeader('Access-Control-Allow-Origin', '*'); 
