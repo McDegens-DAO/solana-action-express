@@ -42,20 +42,6 @@ open the rpcs/helius.json file to configure
   }
 ]
 ```
-Move the rpcs folder somewhere safe. i.e. server root directory.
-
-# config
-open the src/actions.js file to configure
-```javascript
-// server settings
-const https_port = 8444; //~ port 
-const primary_app = ""; //~ https://mcdegen.xyz
-const server_host = ""; //~ https://actions.mcdegen.xyz
-const rpc_file = ""; //~ ../../../rpcs/helius.json
-const rpc_id = 0; //~ default rpc selection from the file above
-const ssl_crt = ""; //~ ../../../ssl/certs/YOUR_CERT_FILE.crt
-const ssl_key = ""; //~ ../../../ssl/keys/YOUR_KEY_FILE.key
-```
 
 # start
 using node
@@ -75,28 +61,6 @@ pm2 restart actions
 ```
 ```javascript
 pm2 stop actions
-```
-
-# activate
-actions.json
-
-In the root of your primary app domain, create a file named: actions.json
-
-Website: yourwebsite.xyz
-
-Actions: yourwebsite.xyz/actions.json
-
-Add the following:
-
-```javascript
-{
-  "rules": [
-    {
-      "pathPattern": "/donate",
-      "apiPath": "https://{YOUR.SERVER.XYZ}:8444/donate-config"
-    }
-  ]
-}
 ```
 
 # test
@@ -150,19 +114,10 @@ Content-Type: application/json
 
 test on dialect
 ```javascript
-https://dial.to/?action=solana-action:https://{YOUR.SERVER.XYZ}:8444/donate-config
+https://dial.to/?action=solana-action:http:localhost:3001/donate-config
 ```
-unfurling test
 
-go to: https://dial.to
-
-search: yourwebsite.xyz/donate
-
-if your blink is active it will load!
-
-if not, use the browsers code inspector to debug
-
-# render on x
+# rendering on x
 it's important to note that in order for a blink to render on x the page you are sharing on X (i.e. https://yourwebsite.xyz/donate) must have twitter-card metatags. we used the following tags:
 ```javascript
   <title>Page Title</title>
