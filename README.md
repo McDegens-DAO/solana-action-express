@@ -91,9 +91,7 @@ https://www.bannerbear.com/tools/twitter-card-preview-tool/
 # actions registration
 It is currently necessary to register the domain of your actions server or else your blinks will not render on x.
 
-This is dialect's google form to request approval: 
-
-https://docs.google.com/forms/d/1YWt44VzqvSjJsvoqoOElPXnLmynABY2DS45UTVcm2a8/viewform
+Dialect Action Registration: https://dial.to/register
 
 # x users
 users on x need to have a supporting wallet or the dialect extension to see the blinks. otherwise the post will default to the normal twitter-card.
