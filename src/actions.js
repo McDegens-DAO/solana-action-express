@@ -319,5 +319,5 @@ key:fs.readFileSync(ssl_key,'utf8'),
 cert:fs.readFileSync(ssl_crt,'utf8')};
 const httpsServer = https.createServer(credentials, app);
 httpsServer.listen(https_port);
-console.log('solana-actions-express running on port '+https_port);
+console.log('solana-action-express running on port '+https_port);
 // ******************************************************************************
