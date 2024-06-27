@@ -100,7 +100,7 @@ app.route('/donate-build').post(async function(req,res){
     _tx_.signers = false;               // array  : default false
     _tx_.serialize = true;              // bool   : default false
     _tx_.encode = true;                 // bool   : default false
-    _tx_.table = false;                 // bool   : default false
+    _tx_.table = false;                 // array  : default false
     _tx_.tolerance = 2;                 // int    : default 1.1    
     _tx_.compute = false;               // bool   : default true
     _tx_.fees = true;                   // bool   : default true
