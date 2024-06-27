@@ -63,55 +63,6 @@ pm2 restart actions
 pm2 stop actions
 ```
 
-# test
-test with a rest client
-```javascript
-// GET
-https://{YOUR.SERVER.XYZ}:8444/donate-config
-```
-```javascript
-// RESPONSE
-{
-  "icon": "https://mcdegen.xyz/images/pfp-416.png",
-  "title": "Donate to McDegens DAO",
-  "description": "Enter an amount of SOL and click Send",
-  "label": "donate",
-  "links": {
-    "actions": [
-      {
-        "label": "Send",
-        "href": "https://{YOUR.SERVER.XYZ}:8444/donate-build?amount={amount}",
-        "parameters": [
-          {
-            "name": "amount",
-            "label": "SOL Amount"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-```javascript
-// POST
-https://{YOUR.SERVER.XYZ}:8444/donate-build?amount=0.0001
-// HEADER
-Content-Type: application/json
-// BODY
-{
-  "account": "7Z3LJB2rxV4LiRBwgwTcufAWxnFTVJpcoCMiCo8Z5Ere"
-}
-```
-```javascript
-// RESPONSE
-{
-  "message": "success",
-  "transaction": "AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAQACBBnGd+L8/U/m08fITPXQGOahmsUckU1+h1l1w6wdS1fV5drn8eMSYo01r/hXR9BqB3/xXIqdxkHLJz9+Dyj5qLwDBkZv5SEXMv/srbpyw5vnvIzlu8X3EmssQ5s6QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL0icV3qd6kbI9BQYxRF5R0IpsALS3nvw4VClgV//oUQDAgAJA0CcAAAAAAAAAgAFAlgCAAADAgABDAIAAACghgEAAAAAAAA="
-}
-```
-
-
 test on dialect
 ```javascript
 https://dial.to/?action=solana-action:http:localhost:3001/donate-config
