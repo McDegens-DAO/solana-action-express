@@ -65,7 +65,7 @@ pm2 stop actions
 
 test on dialect
 ```javascript
-https://dial.to/?action=solana-action:http:localhost:3001/donate-config
+https://dial.to/?action=solana-action:http://localhost:3001/donate-config
 ```
 
 # rendering on x
