@@ -105,3 +105,31 @@ phantom (enable in settings under "experimental features")
 solflare (soon)
 
 dialect
+
+# web2 special
+if the twitter-card for your blink is running on a web2 stack website, blog, or one the many oss ecom platforms, you can use this php file in place of your actions.json to allow public access from blink clients without opening up cross domain requests to other files on your system. you will also need to add a RewriteRule in your your .htaccess file to route all requests for the actions.json to the actions.php file.
+
+**actions.php**
+```javascript
+<?php
+<?php header("Access-Control-Allow-Origin:*");header('Access-Control-Max-Age:86400');header('Content-Type:application/json');if($_SERVER['REQUEST_METHOD']=='OPTIONS'){header("Access-Control-Allow-Methods:GET");if(isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'])){header("Access-Control-Allow-Headers:{$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");}}$response=new stdClass;$rules=array();$rule=new stdClass;
+//// define rules below
+
+// ***************************************************************
+// repeat for each rule
+$rule->pathPattern = "/donate*";
+$rule->apiPath = "https://actions.mcdegen.xyz:8444/donate-config";
+$rules[] = $rule;
+// ***************************************************************
+
+/// output data
+$response->rules=$rules;echo json_encode($response);exit();
+```
+**.htaccess**
+```javascript
+RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^actions.json$ actions.php [L]
+```
