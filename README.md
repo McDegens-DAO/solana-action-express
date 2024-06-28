@@ -107,7 +107,7 @@ solflare (soon)
 dialect
 
 # web2 special
-if the twitter-card for your blink is running on a web2 stack website, blog, or one the many oss ecom platforms, you can use this php file in place of your actions.json to allow public access from blink clients without opening up cross domain requests to other files on your system. you will also need to add a RewriteRule in your your .htaccess file to route all requests for the actions.json to the actions.php file.
+if the twitter-card for your blink is located on a web2 stack website, blog, or one the many oss ecom platforms, you can use this php file in place of your actions.json to allow public access from blink clients without opening up cross domain requests to other files on your system. you will also need to add a RewriteRule in your your .htaccess file to route all requests for the actions.json to the actions.php file.
 
 **actions.php**
 ```javascript
