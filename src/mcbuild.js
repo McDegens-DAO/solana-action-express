@@ -69,7 +69,7 @@ class mcbuild {
             payerKey: opti_payer.publicKey,
             recentBlockhash: blockhash,
             instructions: opti_ix,
-            }).compileToV0Message([opti_tables]);
+            }).compileToV0Message(opti_tables);
         }
         let opti_tx = new VersionedTransaction(opti_msg);    
         let opti_cu_res = await connection.simulateTransaction(opti_tx,{replaceRecentBlockhash:true,sigVerify:false,});
