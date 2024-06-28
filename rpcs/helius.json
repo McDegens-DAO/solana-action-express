@@ -1,7 +1,7 @@
 [
     {
-        "name": "Helius 1",
-        "wallet": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "url": "https://mainnet.helius-rpc.com/?api-key=bbbbbbbbbbbbbbbbbbbbbbbbbb"
+        "name": "Helius Required for Priority Fee Optimization",
+        "wallet": "public-wallet-associated-with-this-endpoint",
+        "url": "https://api.mainnet-beta.solana.com"
     }
 ]
