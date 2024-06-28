@@ -98,13 +98,13 @@ users on x need to have a supporting wallet or the dialect extension to see the 
 
 **supporting wallets/extensions**
 
-backpack
+phantom wallet (enable in settings under "experimental features")
 
-phantom (enable in settings under "experimental features")
+solflare wallet (soon)
 
-solflare (soon)
+backpack wallet
 
-dialect
+dialect blinks [web store](https://chromewebstore.google.com/detail/dialect-blinks/mhklkgpihchphohoiopkidjnbhdoilof) 
 
 # non-node web apps
 if the twitter-card metatags for your blink are located on a non-node website, blog, one the many oss ecom platforms, anything running on apache, you can use this php file in place of your actions.json to allow public access from blink clients without opening up cross domain requests to other files on your system. you will also need to add a RewriteRule in your your .htaccess file to route all requests for actions.json to the actions.php file.
