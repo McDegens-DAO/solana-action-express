@@ -13,6 +13,7 @@ const ssl_crt = "";
 const ssl_key = "";
 const rpc_file = "rpcs/helius.json";
 const rpc_id = 0; // 0 = first rpc url from the file above
+const auto_open = "donate-config"; // dial.to test window : set false to disable
 // *********************************************************************************
 
 // *********************************************************************************
@@ -30,6 +31,7 @@ const uint64=(property="uint64")=>{return BufferLayout.blob(8,property);}
 // *********************************************************************************
 // configures express web server 
 let protocol; let host;
+import open from 'open';
 import http from 'http';
 import https from 'https';
 import express from 'express';
@@ -102,7 +104,7 @@ app.route('/donate-build').post(async function(req,res){
     _tx_.table = false;                 // array  : default false
     _tx_.tolerance = 2;                 // int    : default 1.1    
     _tx_.compute = false;               // bool   : default true
-    _tx_.fees = true;                   // bool   : default true
+    _tx_.fees = false;                  // bool   : default true : helius rpc required when true
     _tx_.priority = req.query.priority; // string : VeryHigh,High,Medium,Low,Min : default Medium
     let tx = await mcbuild.tx(_tx_);    // package the tx
     res.send(JSON.stringify(tx));       // output
@@ -112,4 +114,4 @@ app.route('/donate-build').post(async function(req,res){
 
 
 // *********************************************************************************
-app.get("/actions.json",(req,res)=>{let actions=JSON.parse(fs.readFileSync('actions.json','utf8'));res.send(JSON.stringify(actions));});app.get("/",(req,res)=>{res.send(JSON.stringify('solana-action-express is running on '+proto+http_port));});let server=null;if(proto=="https"){const credentials={key:fs.readFileSync(ssl_key,'utf8'),cert:fs.readFileSync(ssl_crt,'utf8')}; server=https.createServer(credentials,app);}else{server=http.createServer(app);} server.listen(port,()=>{console.log('solana-action-express is running on '+proto+http_port);});
+app.get("/actions.json",(req,res)=>{let actions=JSON.parse(fs.readFileSync('actions.json','utf8'));res.send(JSON.stringify(actions));});app.get("/",(req,res)=>{res.send(JSON.stringify('solana-action-express is running on '+proto+http_port));});let server=null;if(proto=="https"){const credentials={key:fs.readFileSync(ssl_key,'utf8'),cert:fs.readFileSync(ssl_crt,'utf8')};server=https.createServer(credentials,app);}else{server=http.createServer(app);};server.listen(port,()=>{console.log('solana-action-express is running on '+proto+http_port);if(server_host=="http://localhost" && auto_open!=false){open("https://dial.to/?action=solana-action:http://localhost"+http_port+"/"+auto_open);}});
