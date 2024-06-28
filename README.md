@@ -13,8 +13,7 @@ support for this repo: https://discord.gg/Z9bUEf8gYb
 
 ![solana blink](https://github.com/McDegens-DAO/solana-action-express/blob/main/blink.png)
 
-# install and start
-clone the repo
+# auto install and start
 ```javascript
 git clone https://github.com/McDegens-DAO/solana-action-express.git && mv solana-action-express/* . && npm install && npm run actions
 ```
