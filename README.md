@@ -11,61 +11,19 @@ https://github.com/solana-developers/solana-actions
 
 support for this repo: https://discord.gg/Z9bUEf8gYb
 
-live example mcdegens donation blink powered by **solana-action-express**
-
-https://dial.to/?action=solana-action:https://actions.mcdegen.xyz:8444/donate-config
 ![solana blink](https://github.com/McDegens-DAO/solana-action-express/blob/main/blink.png)
 
-# install
-
+# install and start
 clone the repo
 ```javascript
-git clone https://github.com/McDegens-DAO/solana-action-express.git
-```
-move the files
-```javascript
-mv solana-action-express/* .
-```
-install dependencies
-```javascript
-npm install
+git clone https://github.com/McDegens-DAO/solana-action-express.git && mv solana-action-express/* . && npm install && npm run actions
 ```
 
-# rpc
-open the rpcs/helius.json file to configure
+# start server
+the install command above will start the server automatically
+start demo
 ```javascript
-[
-  {
-    "name": "Helius 1",
-    "wallet": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    "url": "https://mainnet.helius-rpc.com/?api-key=bbbbbbbbbbbbbbbbbbbbbbbbbb"
-  }
-]
-```
-
-# start
-using node
-```javascript
-node src/actions.js
-```
-using pm2
-```javascript
-first time start
-pm2 start src/actions.js
-```
-```javascript
-pm2 start actions
-```
-```javascript
-pm2 restart actions
-```
-```javascript
-pm2 stop actions
-```
-
-test on dialect
-```javascript
-https://dial.to/?action=solana-action:http://localhost:3001/donate-config
+npm run actions
 ```
 
 # rendering on x
