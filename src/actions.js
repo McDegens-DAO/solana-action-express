@@ -75,7 +75,6 @@ app.get('/donate-config',(req,res)=>{
     res.send(JSON.stringify(obj));
 });
 
-
 // donation build tx 
 app.route('/donate-build').post(async function(req,res){
     let err={};if(typeof req.body.account=="undefined"){err.transaction="error";err.message="action did not receive an account";res.send(JSON.stringify(err));}
