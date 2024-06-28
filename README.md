@@ -69,7 +69,7 @@ https://dial.to/?action=solana-action:http://localhost:3001/donate-config
 ```
 
 # rendering on x
-it's important to note that in order for a blink to render on x the page you are sharing on x (i.e. https://yourwebsite.xyz/donate) must have twitter-card metatags. we used the following tags:
+it's important to note that in order for a blink to render on x, the page you're sharing (i.e. yourwebsite.xyz/donate) must have twitter-card metatags. we used the following tags:
 ```javascript
   <title>Page Title</title>
   <meta name="description" content="" />
