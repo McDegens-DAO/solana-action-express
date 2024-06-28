@@ -107,7 +107,7 @@ solflare (soon)
 dialect
 
 # web2 special
-if the twitter-card meatatags for your blink are located on a web2 stack website, blog, or one the many oss ecom platforms, you can use this php file in place of your actions.json to allow public access from blink clients without opening up cross domain requests to other files on your system. you will also need to add a RewriteRule in your your .htaccess file to route all requests for actions.json to the actions.php file.
+if the twitter-card meatatags for your blink are located on a non-node website, blog, one the many oss ecom platforms, anything running on apache, you can use this php file in place of your actions.json to allow public access from blink clients without opening up cross domain requests to other files on your system. you will also need to add a RewriteRule in your your .htaccess file to route all requests for actions.json to the actions.php file.
 
 **actions.php**
 ```javascript
