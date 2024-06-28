@@ -133,3 +133,13 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^actions.json$ actions.php [L]
 ```
+testing a request to yourwebsite.com/actions.json should respond with these headers
+```javascript
+Date: Fri, 28 Jun 2024 00:21:13 GMT
+Server: Apache
+Access-Control-Allow-Origin: *
+Access-Control-Max-Age: 86400
+Access-Control-Allow-Methods: GET
+Transfer-Encoding: chunked
+Content-Type: application/json
+```
