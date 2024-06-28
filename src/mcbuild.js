@@ -99,7 +99,7 @@ class mcbuild {
             payerKey: payer.publicKey,
             recentBlockhash: blockhash,
             instructions: instructions,
-            }).compileToV0Message([tables]);
+            }).compileToV0Message(tables);
         }
         let tx = new VersionedTransaction(_msg);
         let response = await fetch(cluster, {
