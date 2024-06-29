@@ -3,9 +3,9 @@ solana actions server powered by node & express js
 
 provides solana actions endpoints for solana blinks
 
-support: https://discord.gg/Z9bUEf8gYb
+repo support: [McDegens Discord](https://discord.gg/Z9bUEf8gYb)
 
-featured: https://github.com/solana-developers/awesome-blinks/blob/master/README.md
+featured at: [Awesome Solana Blinks](https://github.com/solana-developers/awesome-blinks/blob/master/README.md)
 
 ![solana blink](https://github.com/McDegens-DAO/solana-action-express/blob/main/blink.png)
 
