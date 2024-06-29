@@ -7,6 +7,8 @@ repo support: [McDegens Discord](https://discord.gg/Z9bUEf8gYb)
 
 featured at: [Awesome Solana Blinks](https://github.com/solana-developers/awesome-blinks/blob/master/README.md)
 
+live blink: [On Dialect](https://dial.to/?action=solana-action:https://actions.mcdegen.xyz:8444/mint-config)
+
 ![solana blink](https://github.com/McDegens-DAO/solana-action-express/blob/main/blink.png)
 
 # auto install and start
