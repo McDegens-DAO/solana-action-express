@@ -1,15 +1,11 @@
 # solana-action-express
-solana actions server powered by node & express
+solana actions server powered by node & express js
 
-this server package provides solana actions endpoints for solana blinks
+provides solana actions endpoints for solana blinks
 
-official solana actions docs here: 
+support: https://discord.gg/Z9bUEf8gYb
 
-https://solana.com/docs/advanced/actions
-
-https://github.com/solana-developers/solana-actions
-
-support for this repo: https://discord.gg/Z9bUEf8gYb
+featured: https://github.com/solana-developers/awesome-blinks/blob/master/README.md
 
 ![solana blink](https://github.com/McDegens-DAO/solana-action-express/blob/main/blink.png)
 
@@ -99,3 +95,9 @@ Access-Control-Allow-Methods: GET
 Transfer-Encoding: chunked
 Content-Type: application/json
 ```
+
+# official solana actions docs
+
+https://solana.com/docs/advanced/actions
+
+https://github.com/solana-developers/solana-actions
