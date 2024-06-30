@@ -23,9 +23,9 @@ npm run actions
 ```
 
 # rendering on x
-it's important to note that in order for a blink to render on x, the page you're sharing (i.e. yourwebsite.xyz/donate) must have twitter-card metatags. we used the following tags:
+it's important to note that in order for a blink to render on x, the page you're sharing (i.e. yourwebsite.xyz/donate) must have twitter-card metatags. we use the following metatags:
 ```javascript
-  <title>Page Title</title>
+  <title>Title</title>
   <meta name="description" content="" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content="@xHandle" />
@@ -37,6 +37,8 @@ it's important to note that in order for a blink to render on x, the page you're
   <meta property="og:image" content="" />
   <meta property="og:url" content="" />
   <meta property="og:description" content="" />
+  <link rel="apple-touch-icon" href="" type="image/png">
+  <link rel="icon" href="" type="image/png">
 ```
 you can test that your page is twitter-card enabled using this tool:
 
