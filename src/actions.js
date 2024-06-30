@@ -6,14 +6,14 @@
 
 // *********************************************************************************
 // server settings
-let port = 3001;
-const server_host = "http://localhost";
-const primary_app = "https://mcdegen.xyz";
-const ssl_crt = "";
-const ssl_key = "";
-const rpc_file = "rpcs/helius.json";
+let port = 3001; // try 8444 for prod
+const server_host = "http://localhost"; // https required for prod
+const primary_app = "https://mcdegen.xyz"; // not currently used
+const ssl_crt = ""; // path to crt file required for prod
+const ssl_key = ""; // path to ssl key required for prod
+const rpc_file = "rpcs/helius.json"; // move to server root for prod
 const rpc_id = 0; // 0 = first rpc url from the file above
-const auto_open = "donate-config"; // dial.to test window : set false to disable
+const auto_open = "donate-config"; // dial.to dev test window : set false for prod
 // *********************************************************************************
 
 // *********************************************************************************
@@ -76,7 +76,6 @@ app.get('/donate-config',(req,res)=>{
     }
     res.send(JSON.stringify(obj));
 });
-
 // donation build tx 
 app.route('/donate-build').post(async function(req,res){
     let err={};if(typeof req.body.account=="undefined"){err.transaction="error";err.message="action did not receive an account";res.send(JSON.stringify(err));}
