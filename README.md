@@ -54,11 +54,11 @@ users on x need to have a supporting wallet or the dialect extension to see the 
 
 **supporting wallets/extensions**
 
-phantom wallet (enable in settings under "experimental features")
+phantom wallet (enable in settings under "experimental features") [web store](https://chromewebstore.google.com/detail/phantom/bfnaelmomeimhlpmgjnjophhpkkoljpa)
 
 solflare wallet (soon)
 
-backpack wallet
+backpack wallet [web store](https://chromewebstore.google.com/detail/backpack/aflkmfhebedbjioipglgcbcmnbpgliof)
 
 dialect blinks [web store](https://chromewebstore.google.com/detail/dialect-blinks/mhklkgpihchphohoiopkidjnbhdoilof) 
 
