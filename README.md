@@ -83,10 +83,6 @@ $response->rules=$rules;echo json_encode($response);exit();
 ```
 **.htaccess**
 ```javascript
-RewriteEngine On
-RewriteBase /
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^actions.json$ actions.php [L]
 ```
 testing a request to yourwebsite.com/actions.json should respond with these headers
