@@ -7,7 +7,7 @@
 // *********************************************************************************
 // server settings
 let port = 3001; // try 8444 for prod
-const server_host = "http://localhost"; // https required for prod
+const server_host = "http://localhost"; // https fqd required for prod
 const primary_app = "https://mcdegen.xyz"; // not currently used
 const ssl_crt = ""; // path to crt file required for prod
 const ssl_key = ""; // path to ssl key required for prod
