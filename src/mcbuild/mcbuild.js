@@ -1,4 +1,6 @@
-// mcbuild.js
+// name: mcbuild.js
+// author: @SolDapper
+// license: MIT https://github.com/McDegens-DAO/mcbuild/blob/main/LICENSE
 'use strict';
 import { PublicKey, Connection, TransactionMessage, VersionedTransaction, ComputeBudgetProgram } from "@solana/web3.js";
 import bs58 from 'bs58';
