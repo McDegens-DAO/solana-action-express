@@ -8,8 +8,8 @@ var ssl_crt = ""; // path to crt file required for prod
 var ssl_key = ""; // path to ssl key required for prod
 var rpc_file = "rpcs/helius.json"; // move to server root for prod
 var rpc_id = 0; // 0 = first rpc url from the file above
-var auto_open = "donate-sol-config"; // dial.to dev test window : set false for prod
-var rules = {"rules":[{"pathPattern":"/donate-sol-config","apiPath":server_host+":"+port+"/"+auto_open}]};
+var auto_open = "donate-usdc-config"; // dial.to dev test window : set false for prod
+var rules = {"rules":[{"pathPattern":"/donate-usdc-config","apiPath":server_host+":"+port+"/"+auto_open}]};
 // var auto_open = false; // dial.to dev test window : set false for prod
 // *********************************************************************************
 
