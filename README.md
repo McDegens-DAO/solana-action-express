@@ -42,7 +42,7 @@ app.use("/", donation_usdc);
 // include actions
 // *********************************************************************************
 ```
-3. build your new action
+3. build your new action module
 
  *src/actions/my_new_action.js*
 ```javascript
