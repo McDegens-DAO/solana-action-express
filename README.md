@@ -24,6 +24,92 @@ git clone https://github.com/McDegens-DAO/solana-action-express.git && mv solana
 npm run actions
 ```
 
+# creating new actions
+1. create your new action file
+```javascript
+touch src/actions/my_new_action.js
+```
+2. include the new file into your [actions.js](https://github.com/McDegens-DAO/solana-action-express/blob/a5b8883a90303b31030f9cbc941a2b4ffbc22f27/src/actions.js#L32)
+```javascript
+// *********************************************************************************
+// include actions
+import { my_new_action } from './actions/my_new_action.js';
+app.use("/", my_new_action);
+import { donation_sol } from './actions/donation_sol.js';
+app.use("/", donation_sol);
+import { donation_usdc } from './actions/donation_usdc.js';
+app.use("/", donation_usdc);
+// include actions
+// *********************************************************************************
+```
+3. build your new action
+
+ *src/actions/my_new_action.js*
+```javascript
+'use strict';
+// *********************************************************************************
+// sol donation action
+import {rpc,server_host,http_port} from '../config.js';
+import Express from 'express';
+var my_new_action = Express.Router();
+my_new_action.get('/my-new-action-config',(req,res)=>{
+    let obj = {}
+    obj.icon = "";
+    obj.title = "";
+    obj.description = "";
+    obj.label = "donate";
+    obj.links = {
+    "actions": [
+        {
+          "label": "Send",
+          "href": server_host+http_port+"/my-new-action-build?amount={amount}",
+          "parameters": [
+            {
+              "name": "amount", // input field name
+              "label": "SOL Amount", // text input placeholder
+            }
+          ]
+        }
+      ]
+    }
+    res.send(JSON.stringify(obj));
+});
+my_new_action.route('/my-new-action-build').post(async function(req,res){
+  let err={};if(typeof req.body.account=="undefined"){err.transaction="error";err.message="action did not receive an account";res.send(JSON.stringify(err));}
+
+  // verify amount param was passed
+  if(typeof req.query.amount=="undefined"){err.transaction="error";
+    err.message = "action did not receive an amount to send";
+    res.send(JSON.stringify(err));
+  }
+
+  // create instructions
+  let lamports = req.query.amount * 1000000000;
+  let from = new PublicKey(req.body.account);
+  let to = new PublicKey("GUFxwDrsLzSQ27xxTVe4y9BARZ6cENWmjzwe8XPy7AKu");
+  let donateIx = SystemProgram.transfer({fromPubkey:from, lamports:lamports, toPubkey:to});
+
+  // build transaction
+  let _tx_ = {};
+  _tx_.rpc = rpc;                     // string : required
+  _tx_.account = req.body.account;    // string : required
+  _tx_.instructions = [ donateIx ];   // array  : required
+  _tx_.signers = false;               // array  : default false
+  _tx_.serialize = true;              // bool   : default false
+  _tx_.encode = true;                 // bool   : default false
+  _tx_.table = false;                 // array  : default false
+  _tx_.tolerance = 2;                 // int    : default 1.1    
+  _tx_.compute = false;               // bool   : default true
+  _tx_.fees = false;                  // bool   : default true : helius rpc required when true
+  _tx_.priority = req.query.priority; // string : VeryHigh,High,Medium,Low,Min : default Medium
+  let tx = await mcbuild.tx(_tx_);    // package the tx
+  res.send(JSON.stringify(tx));       // output
+
+});
+export {my_new_action};
+// *********************************************************************************
+```
+
 # rendering on x
 it's important to note that in order for a blink to render on x, the page you're sharing (i.e. yourwebsite.xyz/donate) must have twitter-card metatags. we use the following metatags:
 ```javascript
