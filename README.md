@@ -15,8 +15,10 @@ the default action for this repo is a usdc (or other spl) donation blink. howeve
 
 # auto install and start
 installs and starts the server
+
+*this command creates the your-projects/solana-action-express working directory
 ```javascript
-git clone https://github.com/McDegens-DAO/solana-action-express.git && mv solana-action-express/* . && npm install && npm run actions
+git clone https://github.com/McDegens-DAO/solana-action-express.git && cd solana-action-express && npm install && npm run actions
 ```
 
 # normal start
