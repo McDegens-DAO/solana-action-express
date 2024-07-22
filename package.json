@@ -9,7 +9,9 @@
         "start": "node src/actions.js"
     },
     "dependencies": {
+        "@metaplex-foundation/mpl-bubblegum": "^4.1.0",
         "@solana/buffer-layout": "^4.0.1",
+        "@solana/spl-account-compression": "^0.2.1",
         "@solana/spl-token": "^0.3.11",
         "@solana/web3.js": "^1.89.0",
         "bn.js": "^5.2.1",
