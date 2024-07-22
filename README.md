@@ -64,7 +64,7 @@ my_new_action.get('/my-new-action-config',(req,res)=>{
     "actions": [
         {
           "label": "Send",
-          "href": server_host+http_port+"/my-new-action-build?amount={amount}",
+          "href": host+"/my-new-action-build?amount={amount}",
           "parameters": [
             {
               "name": "amount", // input field name
@@ -76,14 +76,18 @@ my_new_action.get('/my-new-action-config',(req,res)=>{
     }
     res.send(JSON.stringify(obj));
 });
-my_new_action.route('/my-new-action-build').post(async function(req,res){
-  let err={};if(typeof req.body.account=="undefined"){err.transaction="error";err.message="action did not receive an account";res.send(JSON.stringify(err));}
+// *********************************************************************************
 
-  // verify amount param was passed
-  if(typeof req.query.amount=="undefined"){err.transaction="error";
-    err.message = "action did not receive an amount to send";
-    res.send(JSON.stringify(err));
-  }
+// *********************************************************************************
+// sol donation tx
+my_new_action.route('/donate-sol-build').post(async function(req,res){
+  let err={};
+
+  // validate inputs or default for simulation
+  if(typeof req.body.account=="undefined"){req.body.account="7Z3LJB2rxV4LiRBwgwTcufAWxnFTVJpcoCMiCo8Z5Ere";}
+  if(typeof req.query.amount=="undefined" || req.query.amount=="<amount>" || isNaN(req.query.amount)){req.query.amount = 0;}
+  console.log("req.body.account", req.body.account);
+  console.log("req.query.amount", req.query.amount);
 
   // create instructions
   let lamports = req.query.amount * 1000000000;
