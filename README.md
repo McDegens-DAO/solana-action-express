@@ -7,7 +7,7 @@ repo support: [McDegens Discord](https://discord.gg/Z9bUEf8gYb)
 
 featured at: [Awesome Solana Blinks](https://github.com/solana-developers/awesome-blinks/blob/master/README.md)
 
-our live mint blink: [On Dialect](https://dial.to/?action=solana-action:https://actions.mcdegen.xyz:8444/mint-config)
+our live mint blink: [On Dialect](https://dial.to/?action=solana-action:https://www.solana-action-express.com/mcdegen-mint-config)
 
 the default action for this repo is a usdc (or other spl) donation blink. however there is a sol donation action included as well.
 
@@ -80,7 +80,7 @@ my_new_action.get('/my-new-action-config',(req,res)=>{
 
 // *********************************************************************************
 // sol donation tx
-my_new_action.route('/donate-sol-build').post(async function(req,res){
+my_new_action.route('/my-new-action-build').post(async function(req,res){
   let err={};
 
   // validate inputs or default for simulation
