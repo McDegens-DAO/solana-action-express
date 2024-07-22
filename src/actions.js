@@ -34,6 +34,8 @@ app.use((req, res, next) => {
 
 // *********************************************************************************
 // include actions
+import { mcdegen_mint } from './actions/mcdegen_mint.js';
+app.use("/", mcdegen_mint);
 import { donation_sol } from './actions/donation_sol.js';
 app.use("/", donation_sol);
 import { donation_usdc } from './actions/donation_usdc.js';

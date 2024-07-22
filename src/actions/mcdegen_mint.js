@@ -128,7 +128,7 @@ mcdegen_mint.route('/mcdegen-mint-build').post(async function(req,res){
     _tx_.priority = req.query.priority;
     _tx_.instructions = instructions;
     _tx_.compute = false;
-    _tx_.fees = true;
+    _tx_.fees = false;
     let tx = await mcbuild.tx(_tx_);
     ///
     res.send(JSON.stringify(tx));
