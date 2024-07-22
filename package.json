@@ -5,7 +5,8 @@
     "main": "src/actions.js",
     "type": "module",
     "scripts": {
-        "actions": "node src/actions.js"
+        "actions": "node src/actions.js",
+        "start": "node src/actions.js"
     },
     "dependencies": {
         "@solana/buffer-layout": "^4.0.1",
