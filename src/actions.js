@@ -6,21 +6,25 @@
 
 // *********************************************************************************
 // initialize server
-import {port,server_host,ssl_crt,ssl_key,auto_open,http_port,proto} from './config.js';
-import fs from 'fs';
+import {host,auto,rules} from './config.js';
 import open from 'open';
-import http from 'http';
-import https from 'https';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 const app = express(); 
-app.use(bodyParser.json()); 
-app.use(cors({origin:true}));
-app.use(function(req,res,next) {
+app.use(bodyParser.json());
+app.options('*', cors(
+  {
+    "methods": ["GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS"],
+    "allowedHeaders": ['Content-Type, Authorization, Content-Encoding, Accept-Encoding'],
+    "preflightContinue": true,
+    "optionsSuccessStatus": 204
+  }
+));
+app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*'); 
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Encoding, Accept-Encoding');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
   res.setHeader('Content-Encoding', 'compress');
   res.setHeader('Content-Type', 'application/json');
   next();
@@ -38,4 +42,16 @@ app.use("/", donation_usdc);
 // *********************************************************************************
 
 // *********************************************************************************
-app.get("/actions.json",(req,res)=>{if(server_host=="http://localhost" && auto_open!=false){res.send(JSON.stringify(rules));}});app.get("/",(req,res)=>{res.send(JSON.stringify('solana-action-express is running on '+proto+http_port));});let server=null;if(proto=="https"){const credentials={key:fs.readFileSync(ssl_key,'utf8'),cert:fs.readFileSync(ssl_crt,'utf8')};server=https.createServer(credentials,app);}else{server=http.createServer(app);};server.listen(port,()=>{console.log('solana-action-express is running on '+proto+http_port);if(server_host=="http://localhost" && auto_open!=false){open("https://dial.to/?action=solana-action:http://localhost"+http_port+"/"+auto_open);}});
+app.get("/actions.json",(req,res)=>{
+  res.send(JSON.stringify(rules));
+});
+app.get("/",(req,res)=>{
+  res.send(JSON.stringify('solana-action-express server'));
+});
+app.listen(process.env.PORT || 3000, () => {
+  console.log("solana-action-express is running!");
+  if(host.includes("localhost") && auto!=false){
+    open("https://dial.to/?action=solana-action:"+host+"/"+auto);
+  }
+});
+// *********************************************************************************

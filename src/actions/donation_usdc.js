@@ -1,17 +1,18 @@
 'use strict';
 // *********************************************************************************
 // usdc donation action
-import {rpc,server_host,http_port} from '../config.js';
+import {rpc,host} from '../config.js';
 import {Connection,PublicKey} from "@solana/web3.js";
 import * as splToken from "@solana/spl-token";
 import mcbuild from '../mcbuild/mcbuild.js';
 import Express from 'express';
 var donation_usdc = Express.Router();
 // *********************************************************************************
+
+// *********************************************************************************
 // usdc donation config
 donation_usdc.get('/donate-usdc-config',(req,res)=>{
-    let name = "donate-usdc";
-    let obj = {}
+let obj = {}
     obj.icon = "https://mcdegen.xyz/images/pfp-416-usdc.png";
     obj.title = "Donate USDC to McDegens DAO";
     obj.description = "Enter USDC amount and click Send";
@@ -20,7 +21,7 @@ donation_usdc.get('/donate-usdc-config',(req,res)=>{
     "actions": [
         {
             "label": "Send",
-            "href": server_host+http_port+"/"+name+"-build?amount={amount}",
+            "href": host+"/donate-usdc-build?amount={amount}",
             "parameters": [
             {
                 "name": "amount", // input field name
@@ -32,15 +33,18 @@ donation_usdc.get('/donate-usdc-config',(req,res)=>{
     }
     res.send(JSON.stringify(obj));
 });
+// *********************************************************************************
+
+// *********************************************************************************
 // usdc donation tx 
 donation_usdc.route('/donate-usdc-build').post(async function(req,res){
-let err={};if(typeof req.body.account=="undefined"){err.transaction="error";err.message="action did not receive an account";res.send(JSON.stringify(err));}
+let err={};
 
-// verify amount param was passed
-if(typeof req.query.amount=="undefined"){err.transaction="error";
-    err.message = "action did not receive an amount to send";
-    res.send(JSON.stringify(err));
-}
+// validate inputs or default for simulation
+if(typeof req.body.account=="undefined"){req.body.account="7Z3LJB2rxV4LiRBwgwTcufAWxnFTVJpcoCMiCo8Z5Ere";}
+if(typeof req.query.amount=="undefined" || req.query.amount=="<amount>" || isNaN(req.query.amount)){req.query.amount = 0;}
+console.log("req.body.account", req.body.account);
+console.log("req.query.amount", req.query.amount);
 
 // action settings
 const decimals = 6; // usdc has 6 decimals
