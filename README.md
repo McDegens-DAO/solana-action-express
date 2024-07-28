@@ -128,7 +128,8 @@ var auto = false;
 Although you can test locally on Dial.to and other tools, it's important to note that in order for a blink to render on x you must have:
 1. your actions must be deployed live on a fully qualified domain name.
 2. blinks must be enabled in your wallet settings.
-3. twitter-card metatags the  (page you're sharing i.e. yourwebsite.xyz/donate).
+3. the page you're sharing must have twitter-card metatags.
+
 we use the following metatags
 ```javascript
   <title>Title</title>
