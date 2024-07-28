@@ -125,8 +125,8 @@ var auto = false;
 [heroku](https://www.heroku.com) hosting conviennently allows you to auto deploy or manually deploy from your github repo with one click.
 
 # rendering on x
-Although you can test locally on Dial.to and other tools, it's important to note that in order for a blink to render on x you must have:
-1. your actions must be deployed live on a fully qualified domain name.
+Although you can test locally on Dial.to and other tools, it's important to note that in order for a blink to render on x.com you must have:
+1. your actions deployed live on a fully qualified domain name.
 2. blinks must be enabled in your wallet settings.
 3. the page you're sharing must have twitter-card metatags.
 
