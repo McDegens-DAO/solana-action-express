@@ -122,7 +122,6 @@ by default your "host" is localhost. when deploying your server live you must up
 var host = "https://your-domain-name.com";
 var auto = false;
 ```
-
 [heroku](https://www.heroku.com) hosting conviennently allows you to auto deploy or manually deploy from your github repo with one click.
 
 # rendering on x
