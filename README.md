@@ -116,6 +116,14 @@ export {my_new_action};
 // *********************************************************************************
 ```
 
+# cloud deployment
+by default your "host" is http://localhost. when deploying your server live you must update the host setting in [src/config.js](https://github.com/McDegens-DAO/solana-action-express/blob/main/src/config.js) to your live domain name.
+```javascript
+var host = "http://localhost"; // http://localhost or your live domain
+```
+
+[heroku](https://www.heroku.com) hosting conviennently allows you to auto deploy or manually deploy from your github repo with one click.
+
 # rendering on x
 it's important to note that in order for a blink to render on x, the page you're sharing (i.e. yourwebsite.xyz/donate) must have twitter-card metatags. we use the following metatags:
 ```javascript
