@@ -171,16 +171,16 @@ if the twitter-card metatags for your blink are located on a non-node website, b
 ```javascript
 <?php header("Access-Control-Allow-Origin:*");header('Access-Control-Max-Age:86400');header('Content-Type:application/json');
 header("Access-Control-Allow-Methods:GET");if(isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'])){header("Access-Control-Allow-Headers:{$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");}$response=new stdClass;$rules=array();$rule=new stdClass;
-//// define rules below
+// define rules below
 
 // ***************************************************************
 // repeat for each rule
 $rule->pathPattern = "/donate*";
-$rule->apiPath = "https://actions.mcdegen.xyz:8444/donate-config";
+$rule->apiPath = "https://solana-action-express.com/my-new-action-config";
 $rules[] = $rule;
 // ***************************************************************
 
-/// output data
+// output data
 $response->rules=$rules;echo json_encode($response);exit();
 ```
 **.htaccess**
