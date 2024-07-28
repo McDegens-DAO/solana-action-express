@@ -3,7 +3,7 @@ solana actions server powered by node & express js
 
 provides modular action endpoints for solana blinks
 
-repo support: [McDegens Discord](https://discord.gg/Z9bUEf8gYb)
+repo support: Contact [@SolDapper](https://x.com/SolDapper) or [McDegens Discord](https://discord.gg/Z9bUEf8gYb)
 
 featured at: [Awesome Solana Blinks](https://github.com/solana-developers/awesome-blinks/blob/master/README.md)
 
