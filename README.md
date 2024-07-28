@@ -1,7 +1,7 @@
 # solana-action-express
 solana actions server powered by node & express js
 
-provides solana actions endpoints for solana blinks
+provides modular action endpoints for solana blinks
 
 repo support: [McDegens Discord](https://discord.gg/Z9bUEf8gYb)
 
