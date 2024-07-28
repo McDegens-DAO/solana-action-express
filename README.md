@@ -125,7 +125,11 @@ var auto = false;
 [heroku](https://www.heroku.com) hosting conviennently allows you to auto deploy or manually deploy from your github repo with one click.
 
 # rendering on x
-it's important to note that in order for a blink to render on x, the page you're sharing (i.e. yourwebsite.xyz/donate) must have twitter-card metatags. we use the following metatags:
+Although you can test locally on Dial.to and other tools, it's important to note that in order for a blink to render on x you must have:
+1. your actions must be deployed live on a fully qualified domain name.
+2. blinks must be enabled in your wallet settings.
+3. twitter-card metatags the  (page you're sharing i.e. yourwebsite.xyz/donate).
+we use the following metatags
 ```javascript
   <title>Title</title>
   <meta name="description" content="" />
@@ -176,7 +180,7 @@ header("Access-Control-Allow-Methods:GET");if(isset($_SERVER['HTTP_ACCESS_CONTRO
 // ***************************************************************
 // repeat for each rule
 $rule->pathPattern = "/donate*";
-$rule->apiPath = "https://solana-action-express.com/my-new-action-config";
+$rule->apiPath = "https://www.your-domain.com/my-new-action-config";
 $rules[] = $rule;
 // ***************************************************************
 
