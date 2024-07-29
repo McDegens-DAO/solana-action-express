@@ -77,7 +77,7 @@ class mcbuild {
         let opti_cu_res = await connection.simulateTransaction(opti_tx,{replaceRecentBlockhash:true,sigVerify:false,});
         console.log("Simulation Results: ", opti_cu_res.value);
         if(opti_cu_res.value.err != null){
-            return {"transaction":"error","message":"error during simulation","logs":opti_cu_res.value.logs}
+            return {"message":"error during simulation","logs":opti_cu_res.value.logs}
         }
         let opti_consumed = opti_cu_res.value.unitsConsumed;
         let opti_cu_limit = Math.ceil(opti_consumed * opti_tolerance);
@@ -127,9 +127,9 @@ class mcbuild {
     }
     async tx(_data_){
     let _obj_={};let _rpc_;let _account_;let _instructions_;let _signers_;let _priority_;let _tolerance_;let _serialize_;let _encode_;let _table_;let _compute_;let _fees_;
-    if(typeof _data_.rpc=="undefined"){_obj_.transaction="mcbuild error";_obj_.message="missing rpc";return _obj_;}else{_rpc_=_data_.rpc;}
-    if(typeof _data_.account=="undefined"){_obj_.transaction="mcbuild error";_obj_.message="missing account";return _obj_;}else{_account_=_data_.account;}
-    if(typeof _data_.instructions=="undefined"){_obj_.transaction="mcbuild error";_obj_.message="missing instructions";return _obj_;}else{_instructions_=_data_.instructions;}
+    if(typeof _data_.rpc=="undefined"){_obj_.message="missing rpc";return _obj_;}else{_rpc_=_data_.rpc;}
+    if(typeof _data_.account=="undefined"){_obj_.message="missing account";return _obj_;}else{_account_=_data_.account;}
+    if(typeof _data_.instructions=="undefined"){_obj_.message="missing instructions";return _obj_;}else{_instructions_=_data_.instructions;}
     if(typeof _data_.signers=="undefined"){_signers_=false;}else{_signers_=_data_.signers;}
     if(typeof _data_.priority=="undefined"){_priority_="Medium";}else{_priority_=_data_.priority;}
     if(typeof _data_.tolerance=="undefined"){_tolerance_="1.1";}else{_tolerance_=_data_.tolerance;}
@@ -147,12 +147,10 @@ class mcbuild {
         let _cu_ = null;
         _cu_= await this.ComputeLimit(_rpc_,_payer_,_instructions_,_tolerance_,_blockhash_,_table_);
         if(typeof _cu_.logs != "undefined"){
-            _cu_.transaction="error";
             _cu_.message="there was an error when simulating the transaction";
             return _cu_;
         }
         else if(_cu_==null){
-            _obj_.transaction="error";
             _obj_.message="there was an error when optimizing compute limit";
             return _obj_;
         }
