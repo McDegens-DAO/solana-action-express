@@ -143,6 +143,7 @@ else{
         _tx_.priority = req.query.priority; // string : VeryHigh,High,Medium,Low,Min : default Medium
         let tx = await mcbuild.tx(_tx_);    // package the tx
         console.log(tx);
+        tx.message = "You sent "+req.query.amount+" USDC!";
         res.send(JSON.stringify(tx));       // output transaction
     }
 
