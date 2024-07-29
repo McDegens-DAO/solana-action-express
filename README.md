@@ -69,6 +69,7 @@ my_new_action.get('/my-new-action-config',(req,res)=>{
             {
               "name": "amount", // input field name
               "label": "SOL Amount", // text input placeholder
+              "required": true
             }
           ]
         }
@@ -81,35 +82,49 @@ my_new_action.get('/my-new-action-config',(req,res)=>{
 // *********************************************************************************
 // sol donation tx
 my_new_action.route('/my-new-action-build').post(async function(req,res){
-  let err={};
+  
+  let error = false;
+  let message = false;
 
   // validate inputs or default for simulation
-  if(typeof req.body.account=="undefined"){req.body.account="7Z3LJB2rxV4LiRBwgwTcufAWxnFTVJpcoCMiCo8Z5Ere";}
-  if(typeof req.query.amount=="undefined" || req.query.amount=="<amount>" || isNaN(req.query.amount)){req.query.amount = 0;}
-  console.log("req.body.account", req.body.account);
-  console.log("req.query.amount", req.query.amount);
+  if(typeof req.body.account=="undefined"){
+    error = true;
+    message = "user wallet missing";
+  }
+  else if(typeof req.query.amount=="undefined" || req.query.amount=="<amount>" || isNaN(req.query.amount)){
+    error = true;
+    message = "no amount defined";
+  }
 
-  // create instructions
-  let lamports = req.query.amount * 1000000000;
-  let from = new PublicKey(req.body.account);
-  let to = new PublicKey("GUFxwDrsLzSQ27xxTVe4y9BARZ6cENWmjzwe8XPy7AKu");
-  let donateIx = SystemProgram.transfer({fromPubkey:from, lamports:lamports, toPubkey:to});
+  if(error === true){
+    res.status(400);
+    res.send(JSON.stringify({"message":message}));
+  }
+  else{
 
-  // build transaction
-  let _tx_ = {};
-  _tx_.rpc = rpc;                     // string : required
-  _tx_.account = req.body.account;    // string : required
-  _tx_.instructions = [ donateIx ];   // array  : required
-  _tx_.signers = false;               // array  : default false
-  _tx_.serialize = true;              // bool   : default false
-  _tx_.encode = true;                 // bool   : default false
-  _tx_.table = false;                 // array  : default false
-  _tx_.tolerance = 2;                 // int    : default 1.1    
-  _tx_.compute = false;               // bool   : default true
-  _tx_.fees = false;                  // bool   : default true : helius rpc required when true
-  _tx_.priority = req.query.priority; // string : VeryHigh,High,Medium,Low,Min : default Medium
-  let tx = await mcbuild.tx(_tx_);    // package the tx
-  res.send(JSON.stringify(tx));       // output
+    // create instructions
+    let lamports = req.query.amount * 1000000000;
+    let from = new PublicKey(req.body.account);
+    let to = new PublicKey("GUFxwDrsLzSQ27xxTVe4y9BARZ6cENWmjzwe8XPy7AKu");
+    let donateIx = SystemProgram.transfer({fromPubkey:from, lamports:lamports, toPubkey:to});
+
+    // build transaction
+    let _tx_ = {};
+    _tx_.rpc = rpc;                     // string : required
+    _tx_.account = req.body.account;    // string : required
+    _tx_.instructions = [ donateIx ];   // array  : required
+    _tx_.signers = false;               // array  : default false
+    _tx_.serialize = true;              // bool   : default false
+    _tx_.encode = true;                 // bool   : default false
+    _tx_.table = false;                 // array  : default false
+    _tx_.tolerance = 2;                 // int    : default 1.1    
+    _tx_.compute = false;               // bool   : default true
+    _tx_.fees = false;                  // bool   : default true : helius rpc required when true
+    _tx_.priority = req.query.priority; // string : VeryHigh,High,Medium,Low,Min : default Medium
+    let tx = await mcbuild.tx(_tx_);    // package the tx
+    res.send(JSON.stringify(tx));       // output
+
+  }
 
 });
 export {my_new_action};
