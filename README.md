@@ -86,7 +86,7 @@ my_new_action.route('/my-new-action-build').post(async function(req,res){
   let error = false;
   let message = false;
 
-  // validate inputs or default for simulation
+  // validate inputs
   if(typeof req.body.account=="undefined"){
     error = true;
     message = "user wallet missing";
