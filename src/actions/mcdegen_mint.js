@@ -56,7 +56,7 @@ mcdegen_mint.get('/mcdegen-mint-config',(req,res)=>{
 // mint tx 
 mcdegen_mint.route('/mcdegen-mint-build').post(async function(req,res){
     
-    let error = {}
+    let error = false
     let message;
 
     // validate inputs or default for simulation
