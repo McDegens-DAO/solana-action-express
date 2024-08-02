@@ -51,7 +51,7 @@ app.use("/", donation_usdc);
 'use strict';
 // *********************************************************************************
 // sol donation action
-import {rpc,server_host,http_port} from '../config.js';
+import {host} from '../config.js';
 import Express from 'express';
 var my_new_action = Express.Router();
 my_new_action.get('/my-new-action-config',(req,res)=>{
