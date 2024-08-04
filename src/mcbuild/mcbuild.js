@@ -187,5 +187,5 @@ class mcbuild {
         return _obj_;
     }
 }
-var mcbuildor = new mcbuild();
+const mcbuildor = new mcbuild();
 export default mcbuildor;
