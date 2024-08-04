@@ -6,13 +6,13 @@ import {Connection,PublicKey} from "@solana/web3.js";
 import * as splToken from "@solana/spl-token";
 import mcbuild from '../mcbuild/mcbuild.js';
 import Express from 'express';
-var donation_usdc = Express.Router();
+const donation_usdc = Express.Router();
 // *********************************************************************************
 
 // *********************************************************************************
 // usdc donation config
 donation_usdc.get('/donate-usdc-config',(req,res)=>{
-let obj = {}
+    const obj = {}
     obj.icon = "https://mcdegen.xyz/images/pfp-416-usdc.png";
     obj.title = "Donate USDC to McDegens DAO";
     obj.description = "Enter USDC amount and click Send";
@@ -32,7 +32,7 @@ let obj = {}
         }
         ]
     }
-    res.send(JSON.stringify(obj));
+    res.json(obj);
 });
 // *********************************************************************************
 
@@ -43,7 +43,7 @@ donation_usdc.route('/donate-usdc-build').post(async function(req,res){
 let error = false;
 let message;
 
-// validate inputs or default for simulation
+// validate inputs
 if(typeof req.body.account=="undefined"){
   error = true;
   message = "user wallet missing";
@@ -54,10 +54,11 @@ else if(typeof req.query.amount=="undefined" || req.query.amount=="<amount>" || 
 }
 
 if(error === true){
-    res.status(400);
-    res.send(JSON.stringify({"message":message}));
+    res.status(400).json({"message":message});
 }
 else{
+
+    try{
 
     // action settings
     const decimals = 6; // usdc has 6 decimals
@@ -67,12 +68,11 @@ else{
     // connect : convert value to fractional units
     const SOLANA_CONNECTION = new Connection(rpc,"confirmed");
     const FROM_WALLET = new PublicKey(req.body.account);
-    let amount = parseFloat(req.query.amount);
-    amount = amount.toFixed(decimals);
+    const amount = parseFloat(req.query.amount).toFixed(decimals);
     const TRANSFER_AMOUNT = amount * Math.pow(10, decimals);
 
     // usdc token account of sender
-    let fromTokenAccount = await splToken.getAssociatedTokenAddress(
+    const fromTokenAccount = await splToken.getAssociatedTokenAddressSync(
         MINT_ADDRESS,
         FROM_WALLET,
         false,
@@ -86,65 +86,59 @@ else{
     console.log("oncurve:", oncurve);
 
     // usdc token account of recipient
-    let toTokenAccount = null;
-    toTokenAccount = await splToken.getAssociatedTokenAddress(
+    const toTokenAccount = await splToken.getAssociatedTokenAddressSync(
         MINT_ADDRESS,
         TO_WALLET,
         oncurve,
         splToken.TOKEN_PROGRAM_ID,
         splToken.ASSOCIATED_TOKEN_PROGRAM_ID
-    ).catch(function(err){
-    error = true;
-    message = "getAssociatedTokenAddress failed!";
-    });
+    );
 
     // check if the recipient wallet needs a usdc ata
     let createATA=false;
     await splToken.getAccount(SOLANA_CONNECTION,toTokenAccount,'confirmed',splToken.TOKEN_PROGRAM_ID).then(function(response){createATA=false;})
-    .catch(function(error){if(error.name=="TokenAccountNotFoundError"){createATA=true}else{return;}});
+    .catch(function(err){if(err.name=="TokenAccountNotFoundError"){createATA=true}});
 
     // create new instructions array
-    let instructions = [];
+    const instructions = [];
 
     // create and add recipient ata instructions to array if needed
     if (createATA === true) {
-        let createATAiX = new splToken.createAssociatedTokenAccountInstruction(
+        const createATAiX = new splToken.createAssociatedTokenAccountInstruction(
         FROM_WALLET,
         toTokenAccount,
         TO_WALLET,
         MINT_ADDRESS,
         splToken.TOKEN_PROGRAM_ID,
-        splToken.ASSOCIATED_TOKEN_PROGRAM_ID
-        );
+        splToken.ASSOCIATED_TOKEN_PROGRAM_ID);
         instructions.push(createATAiX);
     }
 
     // create and add the usdc transfer instructions
-    let transferInstruction = splToken.createTransferInstruction(fromTokenAccount,toTokenAccount,FROM_WALLET,TRANSFER_AMOUNT);
+    const transferInstruction = splToken.createTransferInstruction(fromTokenAccount,toTokenAccount,FROM_WALLET,TRANSFER_AMOUNT);
     instructions.push(transferInstruction);
 
-    if(error === true){
-        res.status(400);
-        res.send(JSON.stringify({"message":message}));
-    }
-    else{
-        // build transaction
-        let _tx_ = {};
-        _tx_.rpc = rpc;                     // string : required
-        _tx_.account = req.body.account;    // string : required
-        _tx_.instructions = instructions;   // array  : required
-        _tx_.signers = false;               // array  : default false
-        _tx_.serialize = true;              // bool   : default false
-        _tx_.encode = true;                 // bool   : default false
-        _tx_.table = false;                 // array  : default false
-        _tx_.tolerance = 1.2;               // int    : default 1.1    
-        _tx_.compute = false;               // bool   : default true
-        _tx_.fees = false;                  // bool   : default true : helius rpc required when true
-        _tx_.priority = req.query.priority; // string : VeryHigh,High,Medium,Low,Min : default Medium
-        let tx = await mcbuild.tx(_tx_);    // package the tx
-        console.log(tx);
-        tx.message = "You sent "+req.query.amount+" USDC!";
-        res.send(JSON.stringify(tx));       // output transaction
+    // build transaction
+    const _tx_ = {};
+    _tx_.rpc = rpc;                     // string : required
+    _tx_.account = req.body.account;    // string : required
+    _tx_.instructions = instructions;   // array  : required
+    _tx_.signers = false;               // array  : default false
+    _tx_.serialize = true;              // bool   : default false
+    _tx_.encode = true;                 // bool   : default false
+    _tx_.table = false;                 // array  : default false
+    _tx_.tolerance = 1.2;               // int    : default 1.1    
+    _tx_.compute = false;               // bool   : default true
+    _tx_.fees = false;                  // bool   : default true : helius rpc required when true
+    _tx_.priority = req.query.priority; // string : VeryHigh,High,Medium,Low,Min : default Medium
+    const tx = await mcbuild.tx(_tx_);  // package the tx
+    console.log(tx);
+    tx.message = "You sent "+req.query.amount+" USDC!";
+    res.json(tx); // output transaction
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: err.message });
     }
 
 }
