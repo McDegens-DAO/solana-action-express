@@ -53,9 +53,9 @@ app.use("/", donation_usdc);
 // sol donation action
 import {host} from '../config.js';
 import Express from 'express';
-var my_new_action = Express.Router();
+const my_new_action = Express.Router();
 my_new_action.get('/my-new-action-config',(req,res)=>{
-    let obj = {}
+    const obj = {}
     obj.icon = "";
     obj.title = "";
     obj.description = "";
@@ -75,7 +75,7 @@ my_new_action.get('/my-new-action-config',(req,res)=>{
         }
       ]
     }
-    res.send(JSON.stringify(obj));
+    res.json(obj);
 });
 // *********************************************************************************
 
@@ -97,33 +97,40 @@ my_new_action.route('/my-new-action-build').post(async function(req,res){
   }
 
   if(error === true){
-    res.status(400);
-    res.send(JSON.stringify({"message":message}));
+    res.status(400).json({"message":message});
   }
   else{
 
-    // create instructions
-    let lamports = req.query.amount * 1000000000;
-    let from = new PublicKey(req.body.account);
-    let to = new PublicKey("GUFxwDrsLzSQ27xxTVe4y9BARZ6cENWmjzwe8XPy7AKu");
-    let donateIx = SystemProgram.transfer({fromPubkey:from, lamports:lamports, toPubkey:to});
+    try{
 
-    // build transaction
-    let _tx_ = {};
-    _tx_.rpc = rpc;                     // string : required
-    _tx_.account = req.body.account;    // string : required
-    _tx_.instructions = [ donateIx ];   // array  : required
-    _tx_.signers = false;               // array  : default false
-    _tx_.serialize = true;              // bool   : default false
-    _tx_.encode = true;                 // bool   : default false
-    _tx_.table = false;                 // array  : default false
-    _tx_.tolerance = 2;                 // int    : default 1.1    
-    _tx_.compute = false;               // bool   : default true
-    _tx_.fees = false;                  // bool   : default true : helius rpc required when true
-    _tx_.priority = req.query.priority; // string : VeryHigh,High,Medium,Low,Min : default Medium
-    let tx = await mcbuild.tx(_tx_);    // package the tx
-    tx.message = "You sent "+req.query.amount+" SOL!";
-    res.send(JSON.stringify(tx));       // output
+      // create instructions
+      const lamports = req.query.amount * 1000000000;
+      const from = new PublicKey(req.body.account);
+      const to = new PublicKey("GUFxwDrsLzSQ27xxTVe4y9BARZ6cENWmjzwe8XPy7AKu");
+      const donateIx = SystemProgram.transfer({fromPubkey:from, lamports:lamports, toPubkey:to});
+      
+      // build transaction
+      const _tx_ = {};
+      _tx_.rpc = rpc;                     // string : required
+      _tx_.account = req.body.account;    // string : required
+      _tx_.instructions = [ donateIx ];   // array  : required
+      _tx_.signers = false;               // array  : default false
+      _tx_.serialize = true;              // bool   : default false
+      _tx_.encode = true;                 // bool   : default false
+      _tx_.table = false;                 // array  : default false
+      _tx_.tolerance = 1.2;               // int    : default 1.1    
+      _tx_.compute = false;               // bool   : default true
+      _tx_.fees = false;                  // bool   : default true : helius rpc required when true
+      _tx_.priority = req.query.priority; // string : VeryHigh,High,Medium,Low,Min : default Medium
+      const tx = await mcbuild.tx(_tx_);  // package the tx
+      tx.message = "You sent "+req.query.amount+" SOL!";
+      res.json(tx); // output
+
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: err.message });
+    }
+
 
   }
 
@@ -133,10 +140,10 @@ export {my_new_action};
 ```
 
 # cloud deployment
-by default your "host" is localhost. when deploying your server live you must update the host setting in [src/config.js](https://github.com/McDegens-DAO/solana-action-express/blob/main/src/config.js) to your live domain name and set "auto" to false.
+by default your "host" is localhost. when deploying your server live you must update the host setting in [src/config.js](https://github.com/McDegens-DAO/solana-action-express/blob/main/src/config.js) to your live domain.
 ```javascript
 var host = "https://your-domain-name.com";
-var auto = false;
+var auto = "donate-usdc-config";
 ```
 [heroku](https://www.heroku.com) hosting conviennently allows you to auto deploy or manually deploy from your github repo with one click.
 
