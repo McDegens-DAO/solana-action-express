@@ -185,7 +185,7 @@ users on x need to have a supporting wallet or the dialect extension to see the 
 
 phantom wallet (enable in settings under "experimental features") [web store](https://chromewebstore.google.com/detail/phantom/bfnaelmomeimhlpmgjnjophhpkkoljpa)
 
-solflare wallet (soon)
+solflare wallet [web store](https://chromewebstore.google.com/detail/solflare-wallet/bhhhlbepdkbapadjdnnojkbgioiodbic)
 
 backpack wallet [web store](https://chromewebstore.google.com/detail/backpack/aflkmfhebedbjioipglgcbcmnbpgliof)
 
