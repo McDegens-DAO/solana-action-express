@@ -135,7 +135,7 @@ class mcbuild {
     if(typeof _data_.tolerance=="undefined"){_tolerance_="1.1";}else{_tolerance_=_data_.tolerance;}
     if(typeof _data_.serialize=="undefined"){_serialize_=false;}else{_serialize_=_data_.serialize;}
     if(typeof _data_.encode=="undefined"){_encode_=false;}else{_encode_=_data_.encode;}
-    if(typeof _data_.tables=="undefined"){_table_=false;}else{_table_=_data_.tables;}
+    if(typeof _data_.table=="undefined"){_table_=false;}else{_table_=_data_.tables;}
     if(typeof _data_.compute=="undefined"){_compute_=true;}else{_compute_=_data_.compute;}
     if(typeof _data_.fees=="undefined"){_fees_=true;}else{_fees_=_data_.fees;}
     let _wallet_= new PublicKey(_account_);
