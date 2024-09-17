@@ -1,4 +1,5 @@
 'use strict';
+import 'dotenv/config'
 
 // *********************************************************************************
 // server settings
@@ -23,9 +24,10 @@ var rules = {"rules":[
 // no edit
 var rpc_file = "rpcs/rpcs.json"; // move to server root for prod
 var rpc_id = 0; // 0 = first rpc url from the file above
+var rpc;
 import fs from 'fs';
-var rpcs=JSON.parse(fs.readFileSync(rpc_file).toString());
-var rpc=rpcs[rpc_id].url;
-export var host, rpc_file, rpc_id, auto, rpcs, rpc, rules;
+if(process.env.RPC){rpc=process.env.RPC;}
+else{var rpcs=JSON.parse(fs.readFileSync(rpc_file).toString());rpc=rpcs[rpc_id].url;}
+export var host, auto, rpc, rules;
 // no edit
 // *********************************************************************************
