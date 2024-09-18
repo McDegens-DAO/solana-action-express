@@ -1,3 +1,4 @@
 node_modules
 jsconfig.json
 *.env
+*package-lock.json
