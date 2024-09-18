@@ -25,7 +25,8 @@ app.options('*', cors(
 ));
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*'); 
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Encoding, Accept-Encoding, X-Accept-Action-Version, X-Accept-Blockchain-Ids');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Encoding, Accept-Encoding');
+  // res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Encoding, Accept-Encoding, X-Accept-Action-Version, X-Accept-Blockchain-Ids');
   res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,OPTIONS');
   // res.setHeader('Access-Control-Expose-Headers', 'X-Action-Version, X-Blockchain-Ids'),
   // res.setHeader('X-Blockchain-Ids', 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp');
