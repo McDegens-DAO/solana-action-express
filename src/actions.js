@@ -15,16 +15,21 @@ const app = express();
 app.use(bodyParser.json());
 app.options('*', cors(
   {
-    "methods": ["GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS"],
+    "methods": ["GET,PUT,POST,OPTIONS"],
     "allowedHeaders": ['Content-Type, Authorization, Content-Encoding, Accept-Encoding'],
+    // "allowedHeaders": ['Content-Type, Authorization, Content-Encoding, Accept-Encoding, X-Accept-Action-Version, X-Accept-Blockchain-Ids'],
+    // "exposeHeaders": ['X-Action-Version, X-Blockchain-Ids'],
     "preflightContinue": true,
     "optionsSuccessStatus": 204
   }
 ));
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*'); 
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Encoding, Accept-Encoding');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Encoding, Accept-Encoding, X-Accept-Action-Version, X-Accept-Blockchain-Ids');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,OPTIONS');
+  // res.setHeader('Access-Control-Expose-Headers', 'X-Action-Version, X-Blockchain-Ids'),
+  // res.setHeader('X-Blockchain-Ids', 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp');
+  // res.setHeader('X-Action-Version', '');
   res.setHeader('Content-Encoding', 'compress');
   res.setHeader('Content-Type', 'application/json');
   next();
