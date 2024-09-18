@@ -145,7 +145,7 @@ var host = "https://your-domain-name.com";
 ```
 [heroku](https://www.heroku.com) hosting conviennently allows you to auto deploy or manually deploy from your github repo with one click.
 
-Create a Config Var in your apps hosting settings with the name "RPC" and the value being your protected RPC endpoint url. Your solana-action-express server will then use it automatically.
+create a config var in your apps hosting settings with the name "RPC" and the value being your protected rpc endpoint url. your solana-action-express server will then use it automatically.
 
 # rendering on x
 Although you can test locally on Dial.to and other tools, it's important to note that in order for a blink to render on x.com you must have:
