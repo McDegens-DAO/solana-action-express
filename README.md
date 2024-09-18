@@ -142,9 +142,10 @@ export {my_new_action};
 by default your "host" is localhost. when deploying your server live you must update the host setting in [src/config.js](https://github.com/McDegens-DAO/solana-action-express/blob/main/src/config.js) to your live domain.
 ```javascript
 var host = "https://your-domain-name.com";
-var auto = "donate-usdc-config";
 ```
 [heroku](https://www.heroku.com) hosting conviennently allows you to auto deploy or manually deploy from your github repo with one click.
+
+Create a "RPC" Config Var in your apps hosting settings with the value being your protected RPC endpoint url. Your solana-action-express server will then use it automatically.
 
 # rendering on x
 Although you can test locally on Dial.to and other tools, it's important to note that in order for a blink to render on x.com you must have:
