@@ -11,7 +11,7 @@ import open from 'open';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-const app = express(); 
+const app = express();
 app.use(bodyParser.json());
 app.options('*', cors(
   {
@@ -54,10 +54,12 @@ app.get("/actions.json",(req,res)=>{
 app.get("/",(req,res)=>{
   res.send(JSON.stringify('solana-action-express server'));
 });
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT || 3000, async() => {
   console.log("solana-action-express is running!");
   if(host.includes("localhost") && auto!=false){
     open("https://dial.to/?action=solana-action:"+host+"/"+auto);
   }
 });
 // *********************************************************************************
+
+
