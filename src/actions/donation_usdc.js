@@ -4,7 +4,7 @@
 import {rpc,host} from '../config.js';
 import {Connection,PublicKey} from "@solana/web3.js";
 import * as splToken from "@solana/spl-token";
-import mcbuild from '../mcbuild/mcbuild.js';
+import mcswap from 'mcswap-js';
 import Express from 'express';
 const donation_usdc = Express.Router();
 // *********************************************************************************
@@ -131,7 +131,7 @@ else{
     _tx_.compute = false;               // bool   : default true
     _tx_.fees = false;                  // bool   : default true : helius rpc required when true
     _tx_.priority = req.query.priority; // string : VeryHigh,High,Medium,Low,Min : default Medium
-    const tx = await mcbuild.tx(_tx_);  // package the tx
+    const tx = await mcswap.tx(_tx_);  // package the tx
     console.log(tx);
     tx.message = "You sent "+req.query.amount+" USDC!";
     res.json(tx); // output transaction

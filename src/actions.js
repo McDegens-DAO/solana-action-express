@@ -44,6 +44,14 @@ import { donation_sol } from './actions/donation_sol.js';
 app.use("/", donation_sol);
 import { donation_usdc } from './actions/donation_usdc.js';
 app.use("/", donation_usdc);
+import { mcswap_nft } from './actions/mcswap_nft.js';
+app.use("/", mcswap_nft);
+import { mcswap_pnft } from './actions/mcswap_pnft.js';
+app.use("/", mcswap_pnft);
+import { mcswap_core } from './actions/mcswap_core.js';
+app.use("/", mcswap_core);
+import { mcswap_cnft } from './actions/mcswap_cnft.js';
+app.use("/", mcswap_cnft);
 // include actions
 // *********************************************************************************
 

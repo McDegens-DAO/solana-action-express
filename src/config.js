@@ -3,8 +3,9 @@ import 'dotenv/config'
 
 // *********************************************************************************
 // server settings
-var host = "http://localhost"; // http://localhost or your live domain
-var auto = "donate-usdc-config"; // dial.to test window : set false for prod
+var host = ""; // your live domain
+host = "http://localhost"; // comment out before production deployment
+var auto = "mcswap-nft-create"; // dial.to test window : ignored in production
 // *********************************************************************************
 
 // *********************************************************************************
@@ -16,7 +17,11 @@ if(host.includes("localhost")){host=host+":3000";}
 // localhost dev actions.json rules 
 var rules = {"rules":[
 {"pathPattern":"/donate-usdc-config","apiPath":host+"/donate-usdc-config"},
-{"pathPattern":"/donate-sol-config","apiPath":host+"/donate-sol-config"}
+{"pathPattern":"/donate-sol-config","apiPath":host+"/donate-sol-config"},
+{"pathPattern":"/mcswap-nft-create","apiPath":host+"/mcswap-nft-create"},
+{"pathPattern":"/mcswap-pnft-create","apiPath":host+"/mcswap-pnft-create"},
+{"pathPattern":"/mcswap-cnft-create","apiPath":host+"/mcswap-cnft-create"},
+{"pathPattern":"/mcswap-core-create","apiPath":host+"/mcswap-core-create"},
 ]};
 // *********************************************************************************
 

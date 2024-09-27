@@ -3,7 +3,7 @@
 // sol donation action
 import {rpc,host} from '../config.js';
 import {PublicKey,SystemProgram} from "@solana/web3.js";
-import mcbuild from '../mcbuild/mcbuild.js';
+import mcswap from 'mcswap-js';
 import Express from 'express';
 const donation_sol = Express.Router();
 // *********************************************************************************
@@ -78,7 +78,7 @@ donation_sol.route('/donate-sol-build').post(async function(req,res){
       _tx_.compute = false;               // bool   : default true
       _tx_.fees = false;                  // bool   : default true : helius rpc required when true
       _tx_.priority = req.query.priority; // string : VeryHigh,High,Medium,Low,Min : default Medium
-      const tx = await mcbuild.tx(_tx_);  // package the tx
+      const tx = await mcswap.tx(_tx_);  // package the tx
       tx.message = "You sent "+req.query.amount+" SOL!";
       res.json(tx); // output
 
