@@ -198,18 +198,20 @@ if the twitter-card metatags for your blink are located on a non-node website, b
 **actions.php**
 ```javascript
 <?php header("Access-Control-Allow-Origin:*");header('Access-Control-Max-Age:86400');header('Content-Type:application/json');
-header("Access-Control-Allow-Methods:GET");if(isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'])){header("Access-Control-Allow-Headers:{$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");}$response=new stdClass;$rules=array();$rule=new stdClass;
-// define rules below
-
+header("Access-Control-Allow-Methods:GET");if(isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'])){header("Access-Control-Allow-Headers:{$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");}$response=new stdClass;$rules=array();
 // ***************************************************************
-// repeat for each rule
-$rule->pathPattern = "/donate*";
-$rule->apiPath = "https://www.your-domain.com/my-new-action-config";
+$rule = new stdClass;
+$rule->pathPattern = "/donateSOL";
+$rule->apiPath = "https://www.solana-action-express.com/donate-sol-config";
+$rules[] = $rule;
+$rule = new stdClass;
+$rule->pathPattern = "/donateUSDC";
+$rule->apiPath = "https://www.solana-action-express.com/donate-usdc-config";
 $rules[] = $rule;
 // ***************************************************************
-
-// output data
-$response->rules=$rules;echo json_encode($response);exit();
+$response->rules=$rules;
+echo json_encode($response);
+exit();
 ```
 **.htaccess**
 ```javascript
