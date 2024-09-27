@@ -198,15 +198,57 @@ if the twitter-card metatags for your blink are located on a non-node website, b
 **actions.php**
 ```javascript
 <?php header("Access-Control-Allow-Origin:*");header('Access-Control-Max-Age:86400');header('Content-Type:application/json');
-header("Access-Control-Allow-Methods:GET");if(isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'])){header("Access-Control-Allow-Headers:{$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");}$response=new stdClass;$rules=array();
+header("Access-Control-Allow-Methods:GET");if(isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'])){header("Access-Control-Allow-Headers:{$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");}
+$response=new stdClass;
+$rules=array();
 // ***************************************************************
 $rule = new stdClass;
-$rule->pathPattern = "/donateSOL";
+$rule->pathPattern = "/donate-sol";
 $rule->apiPath = "https://www.solana-action-express.com/donate-sol-config";
 $rules[] = $rule;
 $rule = new stdClass;
-$rule->pathPattern = "/donateUSDC";
+$rule->pathPattern = "/donate-usdc";
 $rule->apiPath = "https://www.solana-action-express.com/donate-usdc-config";
+$rules[] = $rule;
+$rule=new stdClass;
+$rule->pathPattern = "/spl/*";
+$rule->apiPath = "https://www.solana-action-express.com/mcswap-spl-config/*";
+$rules[] = $rule;
+$rule=new stdClass;
+$rule->pathPattern = "/swap-nft/*";
+$rule->apiPath = "https://www.solana-action-express.com/mcswap-nft-config/*";
+$rules[] = $rule;
+$rule=new stdClass;
+$rule->pathPattern = "/swap-pnft/*";
+$rule->apiPath = "https://www.solana-action-express.com/mcswap-pnft-config/*";
+$rules[] = $rule;
+$rule=new stdClass;
+$rule->pathPattern = "/swap-cnft/*";
+$rule->apiPath = "https://www.solana-action-express.com/mcswap-cnft-config/*";
+$rules[] = $rule;
+$rule=new stdClass;
+$rule->pathPattern = "/swap-core/*";
+$rule->apiPath = "https://www.solana-action-express.com/mcswap-core-config/*";
+$rules[] = $rule;
+$rule=new stdClass;
+$rule->pathPattern = "/createSPL";
+$rule->apiPath = "https://www.solana-action-express.com/mcswap-spl-create";
+$rules[] = $rule;
+$rule=new stdClass;
+$rule->pathPattern = "/createNFT";
+$rule->apiPath = "https://www.solana-action-express.com/mcswap-nft-create";
+$rules[] = $rule;
+$rule=new stdClass;
+$rule->pathPattern = "/createPNFT";
+$rule->apiPath = "https://www.solana-action-express.com/mcswap-pnft-create";
+$rules[] = $rule;
+$rule=new stdClass;
+$rule->pathPattern = "/createCNFT";
+$rule->apiPath = "https://www.solana-action-express.com/mcswap-cnft-create";
+$rules[] = $rule;
+$rule=new stdClass;
+$rule->pathPattern = "/createCORE";
+$rule->apiPath = "https://www.solana-action-express.com/mcswap-core-create";
 $rules[] = $rule;
 // ***************************************************************
 $response->rules=$rules;
