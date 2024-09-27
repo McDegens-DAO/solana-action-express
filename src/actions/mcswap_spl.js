@@ -4,11 +4,11 @@ import {rpc,host} from '../config.js';
 import mcswap from 'mcswap-js';
 import Express from 'express';
 import { PublicKey } from '@solana/web3.js';
-const mcswap_core = Express.Router();
-const name = "mcswap-core";
-const standard = "CORE";
+const mcswap_spl = Express.Router();
+const name = "mcswap-spl";
+const standard = "SPL";
 // *********************************************************************************
-mcswap_core.get('/'+name+'-config/*',async(req,res)=>{
+mcswap_spl.get('/'+name+'-config/*',async(req,res)=>{
     let error = false;
     let details = "";
     const obj = {}
@@ -16,7 +16,7 @@ mcswap_core.get('/'+name+'-config/*',async(req,res)=>{
     const request = (req.originalUrl).split("/");
     const last = request.length-1;  
     const ids = request[last].split("-");
-    if(request[last]==""||ids[0]==""){error=true;}
+    if(request[last]==""||ids[0]==""||ids[1]==""){error=true;}
     if(error===true){
         obj.type = "completed";
         obj.icon = "https://mcswap.xyz/img/mcswap-card.png";
@@ -28,11 +28,11 @@ mcswap_core.get('/'+name+'-config/*',async(req,res)=>{
         const line = "\r\n";
         const params = {"rpc":rpc}
         params.display = true;
-        params.sellerMint = ids[0];
-        params.buyerMint = ids[1];
+        params.seller = ids[0];
+        params.buyer = ids[1];
         params.standard = standard.toLowerCase();
         const contract = await mcswap.fetch(params);
-        if(typeof contract.buyer=="undefined"||typeof contract.seller=="undefined"||typeof contract.buyerMint=="undefined"){
+        if(typeof contract.buyer=="undefined"||typeof contract.seller=="undefined"||typeof contract.token1Mint=="undefined"||typeof contract.token3Mint=="undefined"){
             obj.label = "Invalid Contract";
             obj.links = {"actions":[{"label":"Invalid Contract","href":host+"/"+name+"-invalid"}]};
         }
@@ -40,18 +40,19 @@ mcswap_core.get('/'+name+'-config/*',async(req,res)=>{
             details+="•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••"+line;
             details+=line+"SELLER"+line;
             details+=contract.seller+line;
-            details+=line+standard+" ASSET"+line;
-            details+=contract.sellerMint+line+line;
-            details+="•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••"+line;
+            details+=line+standard+" ASSETS"+line;
+            details+=contract.token1Symbol+": "+contract.token1Amount+line;
+            if(contract.token2Amount>0){details+=contract.token2Symbol+": "+contract.token2Amount+line;}
+            details+=line+"•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••"+line;
             details+=line+"BUYER"+line;
             details+=contract.buyer+line;
-            if(contract.buyerMint!="11111111111111111111111111111111"){
-                details+=line+standard+" ASSET"+line;
-                details+=contract.buyerMint+line;
-            }
-            if(contract.lamports>0||contract.units>0){details+=line+"TOKENS"+line;}
-            if(contract.lamports>0){details+=contract.lamports+" SOL"+line;}
-            if(contract.units>0){details+=contract.units+" "+contract.symbol+line;}
+            details+=line+standard+" ASSETS"+line;
+            details+=contract.token3Symbol+": "+contract.token3Amount+line;
+            if(contract.token4Amount>0){details+=contract.token4Symbol+": "+contract.token4Amount+line;}
+            details+=line+"•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••"+line;
+            details+=line+"FEE"+line;
+            const fee = await mcswap.fee({"rpc":rpc,"standard":"spl"});
+            details+=fee+line;
             obj.label = "setup";
             obj.links = {"actions":[
                 {"label":"Cancel Contract","href":host+"/"+name+"-cancel-build/"+request[last]},
@@ -64,7 +65,7 @@ mcswap_core.get('/'+name+'-config/*',async(req,res)=>{
         res.json(obj);
     }
 });
-mcswap_core.route('/'+name+'-cancel-build/*').post(async function(req,res){
+mcswap_spl.route('/'+name+'-cancel-build/*').post(async function(req,res){
 try{
     if(typeof req.body.account=="undefined"||req.body.account.includes("1111111111111111111111")){res.json(await mcswap.dummy(rpc));}
     else{
@@ -77,7 +78,7 @@ try{
             obj.message = "no account received";
             res.status(400).json(obj);
         }
-        else if(ids.length < 2 || ids[0]==""){
+        else if(ids.length < 2 || ids[0]=="" || ids[1]==""){
             obj.status = "error";
             obj.message = "Invalid Contract";
             res.status(400).json(obj);
@@ -86,9 +87,8 @@ try{
             const params = {"rpc":rpc}
             params.blink = true;
             params.seller = req.body.account;
-            params.sellerMint = ids[0];
-            params.buyerMint = ids[1];
-            const tx = await mcswap.coreCancel(params);
+            params.buyer = ids[1];
+            const tx = await mcswap.splCancel(params);
             if(tx.status=="error"){
                 if(typeof tx.logs!="undefined"&&tx.logs.includes('Program log: CERROR: Invalid initializer')){
                     tx.message = "only the seller can cancel.. dummy";
@@ -115,7 +115,7 @@ catch(err){
     res.status(400).json(_err_);
 }
 });
-mcswap_core.route('/'+name+'-execute-build/*').post(async function(req,res){
+mcswap_spl.route('/'+name+'-execute-build/*').post(async function(req,res){
 try{
     if(typeof req.body.account=="undefined"||req.body.account.includes("1111111111111111111111")){res.json(await mcswap.dummy(rpc));}
     else{
@@ -123,7 +123,7 @@ try{
         const request = (req.originalUrl).split("/");
         const last = request.length - 1;
         const ids = request[last].split("-");
-        if(request[last]==""||ids[0]==""){
+        if(request[last]==""||ids[0]==""||ids[1]==""){
             obj.status = "error";
             obj.message = "invalid request";
             res.status(400).json(obj);
@@ -136,12 +136,12 @@ try{
         else{
             const params = {"rpc":rpc}
             params.blink = true;
+            params.compute = false;
             params.buyer = req.body.account;
-            params.sellerMint = ids[0];
-            params.buyerMint = ids[1];
-            const tx = await mcswap.coreExecute(params);
+            params.seller = ids[0];
+            const tx = await mcswap.splExecute(params);
             if(tx.status=="error"){
-                if(typeof tx.logs!="undefined"&&tx.logs.includes('Program log: CERROR: Invalid swap asset account')){
+                if(typeof tx.logs!="undefined"&&tx.logs.includes('Program log: CERROR: Invalid swap taker')){
                     tx.message = "only the buyer can execute.. dummy";
                 }
                 res.status(400).json(tx);
@@ -166,7 +166,7 @@ catch(err){
     res.status(400).json(_err_);
 }
 });
-mcswap_core.route('/'+name+'-complete').post(async function(req,res){
+mcswap_spl.route('/'+name+'-complete').post(async function(req,res){
     const obj = {}
     const line = "\r\n";
     let details = "";
@@ -195,16 +195,31 @@ mcswap_core.route('/'+name+'-complete').post(async function(req,res){
     res.json(obj);
 });
 // *********************************************************************************
-mcswap_core.get('/'+name+'-create',async(req,res)=>{
+mcswap_spl.get('/'+name+'-create',async(req,res)=>{
     const line = "\r\n";
-    let details = "This form creates a sales contract for your asset."+line+"Minimum one of the (optional) fields is required.";
+    let details = "This form creates a sales contract for your asset."+line+"You can't sell SOL, but you can request it as payment.";
     const obj = {}
     obj.type = "action";
     const form = [
         {
-            "name": "sellerMint",
-            "label": "Seller "+standard+" Asset Address",
+            "name": "token1Mint",
+            "label": "Sell SPL Mint 1",
             "required": true
+        },
+        {
+            "name": "token1Amount",
+            "label": "Sell SPL Amount 1",
+            "type": "number",
+            "required": true
+        },
+        {
+            "name": "token2Mint",
+            "label": "Sell SPL Mint 2 (optional)",
+        },
+        {
+            "name": "token2Amount",
+            "label": "Sell SPL Amount 2 (optional)",
+            "type": "number"
         },
         {
             "name": "buyer",
@@ -212,26 +227,24 @@ mcswap_core.get('/'+name+'-create',async(req,res)=>{
             "required": true
         },
         {
-            "name": "buyerMint",
-            "label": "Buyer "+standard+" Asset Address (optional)",
-            "required": false
+            "name": "token3Mint",
+            "label": "Request SPL Mint 3",
+            "required": true
         },
         {
-            "name": "lamports",
-            "label": "Request SOL Amount (optional)",
+            "name": "token3Amount",
+            "label": "Request SPL Amount 3",
             "type": "number",
-            "required": false
+            "required": true
         },
         {
-            "name": "tokenMint",
-            "label": "Request Token Mint (optional)",
-            "required": false
+            "name": "token4Mint",
+            "label": "Request SPL Mint 4 (optional)",
         },
         {
-            "name": "units",
-            "label": "Request Token Amount (optional)",
-            "type": "number",
-            "required": false
+            "name": "token4Amount",
+            "label": "Request SPL Amount 4 (optional)",
+            "type": "number"
         }
     ];
     obj.label = "Create";
@@ -241,7 +254,7 @@ mcswap_core.get('/'+name+'-create',async(req,res)=>{
     obj.description = details;
     res.json(obj);
 });
-mcswap_core.route('/'+name+'-create-build').post(async function(req,res){
+mcswap_spl.route('/'+name+'-create-build').post(async function(req,res){
 try{
     if(typeof req.body.account=="undefined"||req.body.account.includes("1111111111111111111111")){res.json(await mcswap.dummy(rpc));}
     else{
@@ -254,14 +267,28 @@ try{
         }
         else{
             const body = req.body.data;
-            if(typeof body.sellerMint!="undefined"){body.sellerMint=body.sellerMint.trim();}else{error=true;}
+            if(typeof body.token1Mint!="undefined"){body.token1Mint=body.token1Mint.trim();}else{error=true;}
+            if(typeof body.token2Mint!="undefined"){body.token2Mint=body.token2Mint.trim();}
+            if(typeof body.token3Mint!="undefined"){body.token3Mint=body.token3Mint.trim();}else{error=true;}
+            if(typeof body.token4Mint!="undefined"){body.token4Mint=body.token4Mint.trim();}
+            if(typeof body.token1Amount!="undefined"){body.token1Amount=body.token1Amount.trim();}else{error=true;}
+            if(typeof body.token2Amount!="undefined"){body.token2Amount=body.token2Amount.trim();}
+            if(typeof body.token3Amount!="undefined"){body.token3Amount=body.token3Amount.trim();}else{error=true;}
+            if(typeof body.token4Amount!="undefined"){body.token4Amount=body.token4Amount.trim();}
             if(typeof body.buyer!="undefined"){body.buyer=body.buyer.trim();}else{error=true;}
-            if(typeof body.buyerMint=="undefined"&&typeof body.lamports=="undefined"&&typeof body.tokenMint=="undefined"&&typeof body.units=="undefined"||
-            typeof body.tokenMint=="undefined"&&typeof body.units!="undefined"||
-            typeof body.tokenMint!="undefined"&&typeof body.units=="undefined"){error=true;}
+            if(typeof body.token1Mint!="undefined"&&body.token1Mint=="11111111111111111111111111111111"){error=true;}
+            if(typeof body.token2Mint!="undefined"&&body.token2Mint=="11111111111111111111111111111111"){error=true;}
+            if(typeof body.token4Mint!="undefined"&&body.token4Mint=="11111111111111111111111111111111"){
+                const tempMint = body.token3Mint;
+                const tempAmount = body.token3Amount;
+                body.token3Mint = body.token4Mint;
+                body.token3Amount = body.token4Amount;
+                body.token4Mint = tempMint;
+                body.token4Amount = tempAmount;
+            }
             if(error===true){
                 obj.status = "error";
-                obj.message = "missing required fields";
+                obj.message = "validation error";
                 res.status(400).json(obj);
             }
             else{
@@ -269,42 +296,30 @@ try{
                 params.blink = true;
                 params.convert = true;
                 params.seller = req.body.account.trim();
-                params.sellerMint = body.sellerMint.trim();
                 params.buyer = body.buyer.trim();
-                const check_seller = new PublicKey(params.seller);
-                const check_sellerMint = new PublicKey(params.sellerMint);
-                const check_buyer = new PublicKey(params.buyer);
-                if(typeof body.buyerMint!="undefined"){params.buyerMint=body.buyerMint.trim();
-                    const check_buyerMint = new PublicKey(params.buyerMint);
-                }
-                if(typeof body.lamports!="undefined"){params.lamports=body.lamports.trim();}
-                if(typeof body.tokenMint!="undefined"){
-                    params.tokenMint=body.tokenMint.trim();
-                    const check_tokenMint = new PublicKey(params.tokenMint);
-                }
-                if(typeof body.units!="undefined"){params.units=body.units.trim();}
-                let tx;
-                if(standard=="NFT"){
-                    tx = await mcswap.nftCreate(params);
-                }
-                else if(standard=="CNFT"){
-                    tx = await mcswap.cnftCreate(params);
-                }
-                else if(standard=="PNFT"){
-                    tx = await mcswap.pnftCreate(params);
-                }
-                else if(standard=="CORE"){
-                    tx = await mcswap.coreCreate(params);
-                }
+
+                params.token1Mint = body.token1Mint;
+                if(typeof body.token2Mint!="undefined"){params.token2Mint=body.token2Mint;}
+                params.token3Mint = body.token3Mint;
+                if(typeof body.token4Mint!="undefined"){params.token4Mint=body.token4Mint;}
+
+                params.token1Amount = body.token1Amount;
+                if(typeof body.token2Amount!="undefined"){params.token2Amount=body.token2Amount;}
+                params.token3Amount = body.token3Amount;
+                if(typeof body.token4Amount!="undefined"){params.token4Amount=body.token4Amount;}
+
+                console.log("params", params);
+                const tx = await mcswap.splCreate(params);
+                console.log("tx", tx);
+                
                 if(tx.status!="ok"){
                     res.status(400).json(tx);
                 }
                 else{
-                    if(typeof params.buyerMint=="undefined"){params.buyerMint="";}
                     tx.links = { 
                         next: { 
                             type: "post", 
-                            href: host+"/"+name+"-create-complete?sellerMint="+params.sellerMint+"&buyerMint="+params.buyerMint,
+                            href: host+"/"+name+"-create-complete?seller="+params.seller+"&buyer="+params.buyer,
                         }
                     }
                     res.json(tx);
@@ -321,7 +336,7 @@ catch(err){
     res.status(400).json(_err_);
 }
 });
-mcswap_core.route('/'+name+'-create-complete').post(async function(req,res){
+mcswap_spl.route('/'+name+'-create-complete').post(async function(req,res){
     const obj = {}
     const line = "\r\n";
     let details = "";
@@ -338,16 +353,16 @@ mcswap_core.route('/'+name+'-create-complete').post(async function(req,res){
         else{
             end_state = "Contract Created";
             details += line+"BLINK"+line;
-            details += "https://mcswap.xyz/swap-core/"+req.query.sellerMint+"-"+req.query.buyerMint+line;
+            details += "https://mcswap.xyz/spl/"+req.query.seller+"-"+req.query.buyer+line;
             details += line+"DIAL"+line;
-            const dial = req.query.sellerMint+"-"+req.query.buyerMint;
+            const dial = req.query.seller+"-"+req.query.buyer;
             details += "https://dial.to/?action=solana-action:"+host+"/"+name+"-config/"+dial+line;
         }
     }
     else{
         end_state = "Confirmed";
         details += line+"BLINK"+line;
-        details += "https://mcswap.xyz/swap-core/"+req.query.sellerMint+"-"+req.query.buyerMint+line;
+        details += "https://mcswap.xyz/spl/"+req.query.sellerMint+"-"+req.query.buyerMint+line;
         details += line+"DIAL"+line;
         const dial = req.query.sellerMint+"-"+req.query.buyerMint;
         details += "https://dial.to/?action=solana-action:"+host+"/"+name+"-config/"+dial+line;
@@ -360,8 +375,8 @@ mcswap_core.route('/'+name+'-create-complete').post(async function(req,res){
     res.json(obj);
 });
 // *********************************************************************************
-mcswap_core.route('/'+name+'-invalid').post(async function(req,res){
+mcswap_spl.route('/'+name+'-invalid').post(async function(req,res){
     res.status(400).json({"message":"invalid contract"});
 });
 // *********************************************************************************
-export {mcswap_core};
+export {mcswap_spl};

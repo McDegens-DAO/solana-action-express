@@ -66,42 +66,45 @@ mcswap_pnft.get('/'+name+'-config/*',async(req,res)=>{
 });
 mcswap_pnft.route('/'+name+'-cancel-build/*').post(async function(req,res){
 try{
-    const obj = {};
-    const request = (req.originalUrl).split("/");
-    const last = request.length - 1;
-    const ids = request[last].split("-");
-    if(typeof req.body=="undefined"||typeof req.body.account=="undefined"){
-        obj.status = "error";
-        obj.message = "no account received";
-        res.status(400).json(obj);
-    }
-    else if(ids.length<2||ids[0]==""){
-        obj.status = "error";
-        obj.message = "Invalid Contract";
-        res.status(400).json(obj);
-    }
+    if(typeof req.body.account=="undefined"||req.body.account.includes("1111111111111111111111")){res.json(await mcswap.dummy(rpc));}
     else{
-        const params = {"rpc":rpc}
-        params.blink = true;
-        params.seller = req.body.account;
-        params.sellerMint = ids[0];
-        params.buyerMint = ids[1];
-        const tx = await mcswap.pnftCancel(params);
-        if(tx.status=="error"){
-            if(typeof tx.logs!="undefined"&&tx.logs.includes('Program log: CERROR: Invalid initializer')){
-                tx.message = "only the seller can cancel.. dummy";
-            }
-            console.log(tx);
-            res.status(400).json(tx);
+        const obj = {};
+        const request = (req.originalUrl).split("/");
+        const last = request.length - 1;
+        const ids = request[last].split("-");
+        if(typeof req.body=="undefined"||typeof req.body.account=="undefined"){
+            obj.status = "error";
+            obj.message = "no account received";
+            res.status(400).json(obj);
+        }
+        else if(ids.length<2||ids[0]==""){
+            obj.status = "error";
+            obj.message = "Invalid Contract";
+            res.status(400).json(obj);
         }
         else{
-            tx.links = { 
-                next: { 
-                    type: "post", 
-                    href: host+"/"+name+"-complete?ref=Cancel",
+            const params = {"rpc":rpc}
+            params.blink = true;
+            params.seller = req.body.account;
+            params.sellerMint = ids[0];
+            params.buyerMint = ids[1];
+            const tx = await mcswap.pnftCancel(params);
+            if(tx.status=="error"){
+                if(typeof tx.logs!="undefined"&&tx.logs.includes('Program log: CERROR: Invalid initializer')){
+                    tx.message = "only the seller can cancel.. dummy";
                 }
+                console.log(tx);
+                res.status(400).json(tx);
             }
-            res.json(tx);
+            else{
+                tx.links = { 
+                    next: { 
+                        type: "post", 
+                        href: host+"/"+name+"-complete?ref=Cancel",
+                    }
+                }
+                res.json(tx);
+            }
         }
     }
 }
@@ -115,42 +118,45 @@ catch(err){
 });
 mcswap_pnft.route('/'+name+'-execute-build/*').post(async function(req,res){
 try{
-    const obj = {};
-    const request = (req.originalUrl).split("/");
-    const last = request.length - 1;
-    const ids = request[last].split("-");
-    if(request[last]==""||ids[0]==""){
-        obj.status = "error";
-        obj.message = "invalid request";
-        res.status(400).json(obj);
-    }
-    else if(typeof req.body=="undefined"||typeof req.body.account=="undefined"){
-        obj.status = "error";
-        obj.message = "missing account";
-        res.status(400).json(obj);
-    }
+    if(typeof req.body.account=="undefined"||req.body.account.includes("1111111111111111111111")){res.json(await mcswap.dummy(rpc));}
     else{
-        const params = {"rpc":rpc}
-        params.blink = true;
-        params.buyer = req.body.account;
-        params.sellerMint = ids[0];
-        params.buyerMint = ids[1];
-        const tx = await mcswap.pnftExecute(params);
-        if(tx.status=="error"){
-            if(typeof tx.logs!="undefined"&&tx.logs.includes('Program log: Incorrect account owner')){
-                tx.message = "only the buyer can execute.. dummy";
-            }
-            console.log(tx);
-            res.status(400).json(tx);
+        const obj = {};
+        const request = (req.originalUrl).split("/");
+        const last = request.length - 1;
+        const ids = request[last].split("-");
+        if(request[last]==""||ids[0]==""){
+            obj.status = "error";
+            obj.message = "invalid request";
+            res.status(400).json(obj);
+        }
+        else if(typeof req.body=="undefined"||typeof req.body.account=="undefined"){
+            obj.status = "error";
+            obj.message = "missing account";
+            res.status(400).json(obj);
         }
         else{
-            tx.links = { 
-                next: { 
-                    type: "post", 
-                    href: host+"/"+name+"-complete?ref=Trade",
+            const params = {"rpc":rpc}
+            params.blink = true;
+            params.buyer = req.body.account;
+            params.sellerMint = ids[0];
+            params.buyerMint = ids[1];
+            const tx = await mcswap.pnftExecute(params);
+            if(tx.status=="error"){
+                if(typeof tx.logs!="undefined"&&tx.logs.includes('Program log: Incorrect account owner')){
+                    tx.message = "only the buyer can execute.. dummy";
                 }
+                console.log(tx);
+                res.status(400).json(tx);
             }
-            res.json(tx);
+            else{
+                tx.links = { 
+                    next: { 
+                        type: "post", 
+                        href: host+"/"+name+"-complete?ref=Trade",
+                    }
+                }
+                res.json(tx);
+            }
         }
     }
 }
@@ -240,70 +246,73 @@ mcswap_pnft.get('/'+name+'-create',async(req,res)=>{
 });
 mcswap_pnft.route('/'+name+'-create-build').post(async function(req,res){
 try{
-    let error = false;
-    const obj = {};
-    if(typeof req.body=="undefined"||typeof req.body.account=="undefined"){
-        obj.status = "error";
-        obj.message = "no account received";
-        res.status(400).json(obj);
-    }
+    if(typeof req.body.account=="undefined"||req.body.account.includes("1111111111111111111111")){res.json(await mcswap.dummy(rpc));}
     else{
-        const body = req.body.data;
-        if(typeof body.sellerMint!="undefined"){body.sellerMint=body.sellerMint.trim();}else{error=true;}
-        if(typeof body.buyer!="undefined"){body.buyer=body.buyer.trim();}else{error=true;}
-        if(typeof body.buyerMint=="undefined"&&typeof body.lamports=="undefined"&&typeof body.tokenMint=="undefined"&&typeof body.units=="undefined"||
-        typeof body.tokenMint=="undefined"&&typeof body.units!="undefined"||
-        typeof body.tokenMint!="undefined"&&typeof body.units=="undefined"){error=true;}
-        if(error===true){
+        let error = false;
+        const obj = {};
+        if(typeof req.body=="undefined"||typeof req.body.account=="undefined"){
             obj.status = "error";
-            obj.message = "missing required fields";
+            obj.message = "no account received";
             res.status(400).json(obj);
         }
         else{
-            const params = {"rpc":rpc}
-            params.blink = true;
-            params.convert = true;
-            params.seller = req.body.account.trim();
-            params.sellerMint = body.sellerMint.trim();
-            params.buyer = body.buyer.trim();
-            const check_seller = new PublicKey(params.seller);
-            const check_sellerMint = new PublicKey(params.sellerMint);
-            const check_buyer = new PublicKey(params.buyer);
-            if(typeof body.buyerMint!="undefined"){params.buyerMint=body.buyerMint.trim();
-                const check_buyerMint = new PublicKey(params.buyerMint);
-            }
-            if(typeof body.lamports!="undefined"){params.lamports=body.lamports.trim();}
-            if(typeof body.tokenMint!="undefined"){
-                params.tokenMint=body.tokenMint.trim();
-                const check_tokenMint = new PublicKey(params.tokenMint);
-            }
-            if(typeof body.units!="undefined"){params.units=body.units.trim();}
-            let tx;
-            if(standard=="NFT"){
-                tx = await mcswap.nftCreate(params);
-            }
-            else if(standard=="CNFT"){
-                tx = await mcswap.cnftCreate(params);
-            }
-            else if(standard=="PNFT"){
-                tx = await mcswap.pnftCreate(params);
-                console.log(tx);
-            }
-            else if(standard=="CORE"){
-                tx = await mcswap.coreCreate(params);
-            }
-            if(tx.status!="ok"){
-                res.status(400).json(tx);
+            const body = req.body.data;
+            if(typeof body.sellerMint!="undefined"){body.sellerMint=body.sellerMint.trim();}else{error=true;}
+            if(typeof body.buyer!="undefined"){body.buyer=body.buyer.trim();}else{error=true;}
+            if(typeof body.buyerMint=="undefined"&&typeof body.lamports=="undefined"&&typeof body.tokenMint=="undefined"&&typeof body.units=="undefined"||
+            typeof body.tokenMint=="undefined"&&typeof body.units!="undefined"||
+            typeof body.tokenMint!="undefined"&&typeof body.units=="undefined"){error=true;}
+            if(error===true){
+                obj.status = "error";
+                obj.message = "missing required fields";
+                res.status(400).json(obj);
             }
             else{
-                if(typeof params.buyerMint=="undefined"){params.buyerMint="";}
-                tx.links = { 
-                    next: { 
-                        type: "post", 
-                        href: host+"/"+name+"-create-complete?sellerMint="+params.sellerMint+"&buyerMint="+params.buyerMint,
-                    }
+                const params = {"rpc":rpc}
+                params.blink = true;
+                params.convert = true;
+                params.seller = req.body.account.trim();
+                params.sellerMint = body.sellerMint.trim();
+                params.buyer = body.buyer.trim();
+                const check_seller = new PublicKey(params.seller);
+                const check_sellerMint = new PublicKey(params.sellerMint);
+                const check_buyer = new PublicKey(params.buyer);
+                if(typeof body.buyerMint!="undefined"){params.buyerMint=body.buyerMint.trim();
+                    const check_buyerMint = new PublicKey(params.buyerMint);
                 }
-                res.json(tx);
+                if(typeof body.lamports!="undefined"){params.lamports=body.lamports.trim();}
+                if(typeof body.tokenMint!="undefined"){
+                    params.tokenMint=body.tokenMint.trim();
+                    const check_tokenMint = new PublicKey(params.tokenMint);
+                }
+                if(typeof body.units!="undefined"){params.units=body.units.trim();}
+                let tx;
+                if(standard=="NFT"){
+                    tx = await mcswap.nftCreate(params);
+                }
+                else if(standard=="CNFT"){
+                    tx = await mcswap.cnftCreate(params);
+                }
+                else if(standard=="PNFT"){
+                    tx = await mcswap.pnftCreate(params);
+                    console.log(tx);
+                }
+                else if(standard=="CORE"){
+                    tx = await mcswap.coreCreate(params);
+                }
+                if(tx.status!="ok"){
+                    res.status(400).json(tx);
+                }
+                else{
+                    if(typeof params.buyerMint=="undefined"){params.buyerMint="";}
+                    tx.links = { 
+                        next: { 
+                            type: "post", 
+                            href: host+"/"+name+"-create-complete?sellerMint="+params.sellerMint+"&buyerMint="+params.buyerMint,
+                        }
+                    }
+                    res.json(tx);
+                }
             }
         }
     }
@@ -333,7 +342,7 @@ mcswap_pnft.route('/'+name+'-create-complete').post(async function(req,res){
         else{
             end_state = "Contract Created";
             details += line+"BLINK"+line;
-            details += "https://mcswap.xyz/swap/"+req.query.sellerMint+"-"+req.query.buyerMint+line;
+            details += "https://mcswap.xyz/swap-pnft/"+req.query.sellerMint+"-"+req.query.buyerMint+line;
             details += line+"DIAL"+line;
             const dial = req.query.sellerMint+"-"+req.query.buyerMint;
             details += "https://dial.to/?action=solana-action:"+host+"/"+name+"-config/"+dial+line;
@@ -342,7 +351,7 @@ mcswap_pnft.route('/'+name+'-create-complete').post(async function(req,res){
     else{
         end_state = "Confirmed";
         details += line+"BLINK"+line;
-        details += "https://mcswap.xyz/swap/"+req.query.sellerMint+"-"+req.query.buyerMint+line;
+        details += "https://mcswap.xyz/swap-pnft/"+req.query.sellerMint+"-"+req.query.buyerMint+line;
         details += line+"DIAL"+line;
         const dial = req.query.sellerMint+"-"+req.query.buyerMint;
         details += "https://dial.to/?action=solana-action:"+host+"/"+name+"-config/"+dial+line;
