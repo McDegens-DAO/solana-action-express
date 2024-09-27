@@ -9,7 +9,7 @@ featured at: [Awesome Solana Blinks](https://github.com/solana-developers/awesom
 
 our live mint blink: [On Dialect](https://dial.to/?action=solana-action:https://www.solana-action-express.com/mcdegen-mint-config)
 
-the default action for this repo is a usdc (or other spl) donation blink. however there is a sol donation action included as well.
+the default action for this repo is a usdc donation blink. however there is a sol donation action included as well as mcswap otc blinks.
 
 ![solana blink](https://github.com/McDegens-DAO/solana-action-express/blob/main/blink.png)
 

@@ -5,7 +5,7 @@ import 'dotenv/config'
 // server settings
 var host = ""; // your live domain
 host = "http://localhost"; // comment out before production deployment
-var auto = "mcswap-nft-create"; // dial.to test window : ignored in production
+var auto = "donate-usdc-config"; // dial.to test window : ignored in production
 // *********************************************************************************
 
 // *********************************************************************************
