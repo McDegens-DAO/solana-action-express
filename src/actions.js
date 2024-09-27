@@ -52,6 +52,8 @@ import { mcswap_core } from './actions/mcswap_core.js';
 app.use("/", mcswap_core);
 import { mcswap_cnft } from './actions/mcswap_cnft.js';
 app.use("/", mcswap_cnft);
+import { mcswap_spl } from './actions/mcswap_spl.js';
+app.use("/", mcswap_spl);
 // include actions
 // *********************************************************************************
 
