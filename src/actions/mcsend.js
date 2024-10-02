@@ -9,6 +9,8 @@ import Express from 'express';
 const mcsend = Express.Router();
 // *********************************************************************************
 
+const SOLANA_CONNECTION = new Connection(rpc,"confirmed");
+
 // *********************************************************************************
 async function McSendBundle(rpcurl,account,amount,wallets){ 
     wallets = wallets.replace(/(?:\r\n|\r|\n)/g,'');
@@ -17,7 +19,6 @@ async function McSendBundle(rpcurl,account,amount,wallets){
     let bundle = [];
     for(let i=0;i<wallets.length;i++){
         const recipient = wallets[i].trim();
-        const SOLANA_CONNECTION = new Connection(rpcurl,"confirmed");
         const MINT_ADDRESS = new PublicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v');
         const DECIMALS = 6;
         const TO_WALLET = new PublicKey(recipient);
