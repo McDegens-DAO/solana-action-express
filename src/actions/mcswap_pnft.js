@@ -8,7 +8,7 @@ const mcswap_pnft = Express.Router();
 const name = "mcswap-pnft";
 const standard = "PNFT";
 // *********************************************************************************
-mcswap_pnft.get('/'+name+'-config/*',async(req,res)=>{
+mcswap_pnft.all('/'+name+'-config/*',async(req,res)=>{
     let error = false;
     let details = "";
     const obj = {}
@@ -55,7 +55,8 @@ mcswap_pnft.get('/'+name+'-config/*',async(req,res)=>{
             obj.label = "setup";
             obj.links = {"actions":[
                 {"label":"Cancel Contract","href":host+"/"+name+"-cancel-build/"+request[last]},
-                {"label":"Execute Contract","href":host+"/"+name+"-execute-build/"+request[last]}
+                {"label":"Execute Contract","href":host+"/"+name+"-execute-build/"+request[last]},
+                {"label":"Home","href":host+"/mcswap-next?choice=home"}
             ]};
         }
         obj.icon = "https://mcswap.xyz/img/mcswap-card.png";
@@ -64,7 +65,7 @@ mcswap_pnft.get('/'+name+'-config/*',async(req,res)=>{
         res.json(obj);
     }
 });
-mcswap_pnft.route('/'+name+'-cancel-build/*').post(async function(req,res){
+mcswap_pnft.route('/'+name+'-cancel-build/*').post(async(req,res)=>{
 try{
     if(typeof req.body.account=="undefined"||req.body.account.includes("1111111111111111111111")){res.json(await mcswap.dummy(rpc));}
     else{
@@ -93,7 +94,6 @@ try{
                 if(typeof tx.logs!="undefined"&&tx.logs.includes('Program log: CERROR: Invalid initializer')){
                     tx.message = "only the seller can cancel.. dummy";
                 }
-                console.log(tx);
                 res.status(400).json(tx);
             }
             else{
@@ -116,7 +116,7 @@ catch(err){
     res.status(400).json(_err_);
 }
 });
-mcswap_pnft.route('/'+name+'-execute-build/*').post(async function(req,res){
+mcswap_pnft.route('/'+name+'-execute-build/*').post(async(req,res)=>{
 try{
     if(typeof req.body.account=="undefined"||req.body.account.includes("1111111111111111111111")){res.json(await mcswap.dummy(rpc));}
     else{
@@ -145,7 +145,6 @@ try{
                 if(typeof tx.logs!="undefined"&&tx.logs.includes('Program log: Incorrect account owner')){
                     tx.message = "only the buyer can execute.. dummy";
                 }
-                console.log(tx);
                 res.status(400).json(tx);
             }
             else{
@@ -165,11 +164,10 @@ catch(err){
     _err_.status="error";
     _err_.message="action error";
     _err_.err=err;
-    console.log(_err_);
     res.status(400).json(_err_);
 }
 });
-mcswap_pnft.route('/'+name+'-complete').post(async function(req,res){
+mcswap_pnft.route('/'+name+'-complete').post(async(req,res)=>{
     const obj = {}
     const line = "\r\n";
     let details = "";
@@ -198,7 +196,7 @@ mcswap_pnft.route('/'+name+'-complete').post(async function(req,res){
     res.json(obj);
 });
 // *********************************************************************************
-mcswap_pnft.get('/'+name+'-create',async(req,res)=>{
+mcswap_pnft.all('/'+name+'-create',async(req,res)=>{
     const line = "\r\n";
     let details = "This form creates a sales contract for your asset."+line+"Minimum one of the (optional) fields is required.";
     const obj = {}
@@ -240,11 +238,11 @@ mcswap_pnft.get('/'+name+'-create',async(req,res)=>{
     obj.label = "Create";
     obj.links = {"actions":[{"label":"Create","href":host+"/"+name+"-create-build","parameters":form}]};
     obj.icon = "https://mcswap.xyz/img/mcswap-card.png";
-    obj.title = "Sell a "+standard+" Standard Asset";
+    obj.title = "Sell a "+standard+" Asset";
     obj.description = details;
     res.json(obj);
 });
-mcswap_pnft.route('/'+name+'-create-build').post(async function(req,res){
+mcswap_pnft.route('/'+name+'-create-build').post(async(req,res)=>{
 try{
     if(typeof req.body.account=="undefined"||req.body.account.includes("1111111111111111111111")){res.json(await mcswap.dummy(rpc));}
     else{
@@ -295,7 +293,6 @@ try{
                 }
                 else if(standard=="PNFT"){
                     tx = await mcswap.pnftCreate(params);
-                    console.log(tx);
                 }
                 else if(standard=="CORE"){
                     tx = await mcswap.coreCreate(params);
@@ -325,7 +322,7 @@ catch(err){
     res.status(400).json(_err_);
 }
 });
-mcswap_pnft.route('/'+name+'-create-complete').post(async function(req,res){
+mcswap_pnft.route('/'+name+'-create-complete').post(async(req,res)=>{
     const obj = {}
     const line = "\r\n";
     let details = "";
@@ -364,7 +361,7 @@ mcswap_pnft.route('/'+name+'-create-complete').post(async function(req,res){
     res.json(obj);
 });
 // *********************************************************************************
-mcswap_pnft.route('/'+name+'-invalid').post(async function(req,res){
+mcswap_pnft.route('/'+name+'-invalid').post(async(req,res)=>{
     res.status(400).json({"message":"invalid contract"});
 });
 // *********************************************************************************

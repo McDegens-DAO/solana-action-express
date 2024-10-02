@@ -8,7 +8,7 @@ const mcswap_spl = Express.Router();
 const name = "mcswap-spl";
 const standard = "SPL";
 // *********************************************************************************
-mcswap_spl.get('/'+name+'-config/*',async(req,res)=>{
+mcswap_spl.all('/'+name+'-config/*',async(req,res)=>{
     let error = false;
     let details = "";
     const obj = {}
@@ -65,7 +65,7 @@ mcswap_spl.get('/'+name+'-config/*',async(req,res)=>{
         res.json(obj);
     }
 });
-mcswap_spl.route('/'+name+'-cancel-build/*').post(async function(req,res){
+mcswap_spl.route('/'+name+'-cancel-build/*').post(async(req,res)=>{
 try{
     if(typeof req.body.account=="undefined"||req.body.account.includes("1111111111111111111111")){res.json(await mcswap.dummy(rpc));}
     else{
@@ -115,7 +115,7 @@ catch(err){
     res.status(400).json(_err_);
 }
 });
-mcswap_spl.route('/'+name+'-execute-build/*').post(async function(req,res){
+mcswap_spl.route('/'+name+'-execute-build/*').post(async(req,res)=>{
 try{
     if(typeof req.body.account=="undefined"||req.body.account.includes("1111111111111111111111")){res.json(await mcswap.dummy(rpc));}
     else{
@@ -166,7 +166,7 @@ catch(err){
     res.status(400).json(_err_);
 }
 });
-mcswap_spl.route('/'+name+'-complete').post(async function(req,res){
+mcswap_spl.route('/'+name+'-complete').post(async(req,res)=>{
     const obj = {}
     const line = "\r\n";
     let details = "";
@@ -195,7 +195,7 @@ mcswap_spl.route('/'+name+'-complete').post(async function(req,res){
     res.json(obj);
 });
 // *********************************************************************************
-mcswap_spl.get('/'+name+'-create',async(req,res)=>{
+mcswap_spl.all('/'+name+'-create',async(req,res)=>{
     const line = "\r\n";
     let details = "This form creates a sales contract for your asset."+line+"You can't sell SOL, but you can request it as payment.";
     const obj = {}
@@ -250,11 +250,11 @@ mcswap_spl.get('/'+name+'-create',async(req,res)=>{
     obj.label = "Create";
     obj.links = {"actions":[{"label":"Create","href":host+"/"+name+"-create-build","parameters":form}]};
     obj.icon = "https://mcswap.xyz/img/mcswap-card.png";
-    obj.title = "Sell a "+standard+" Standard Asset";
+    obj.title = "Sell a "+standard+" Asset";
     obj.description = details;
     res.json(obj);
 });
-mcswap_spl.route('/'+name+'-create-build').post(async function(req,res){
+mcswap_spl.route('/'+name+'-create-build').post(async(req,res)=>{
 try{
     if(typeof req.body.account=="undefined"||req.body.account.includes("1111111111111111111111")){res.json(await mcswap.dummy(rpc));}
     else{
@@ -308,9 +308,7 @@ try{
                 params.token3Amount = body.token3Amount;
                 if(typeof body.token4Amount!="undefined"){params.token4Amount=body.token4Amount;}
 
-                console.log("params", params);
                 const tx = await mcswap.splCreate(params);
-                console.log("tx", tx);
                 
                 if(tx.status!="ok"){
                     res.status(400).json(tx);
@@ -336,7 +334,7 @@ catch(err){
     res.status(400).json(_err_);
 }
 });
-mcswap_spl.route('/'+name+'-create-complete').post(async function(req,res){
+mcswap_spl.route('/'+name+'-create-complete').post(async(req,res)=>{
     const obj = {}
     const line = "\r\n";
     let details = "";
@@ -375,7 +373,7 @@ mcswap_spl.route('/'+name+'-create-complete').post(async function(req,res){
     res.json(obj);
 });
 // *********************************************************************************
-mcswap_spl.route('/'+name+'-invalid').post(async function(req,res){
+mcswap_spl.route('/'+name+'-invalid').post(async(req,res)=>{
     res.status(400).json({"message":"invalid contract"});
 });
 // *********************************************************************************

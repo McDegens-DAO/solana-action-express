@@ -8,7 +8,7 @@ const mcswap_nft = Express.Router();
 const name = "mcswap-nft";
 const standard = "NFT";
 // *********************************************************************************
-mcswap_nft.get('/'+name+'-config/*',async(req,res)=>{
+mcswap_nft.all('/'+name+'-config/*',async(req,res)=>{
     let error = false;
     let details = "";
     const obj = {}
@@ -64,7 +64,7 @@ mcswap_nft.get('/'+name+'-config/*',async(req,res)=>{
         res.json(obj);
     }
 });
-mcswap_nft.route('/'+name+'-cancel-build/*').post(async function(req,res){
+mcswap_nft.route('/'+name+'-cancel-build/*').post(async(req,res)=>{
 try{
     if(typeof req.body.account=="undefined"||req.body.account.includes("1111111111111111111111")){res.json(await mcswap.dummy(rpc));}
     else{
@@ -115,7 +115,7 @@ catch(err){
     res.status(400).json(_err_);
 }
 });
-mcswap_nft.route('/'+name+'-execute-build/*').post(async function(req,res){
+mcswap_nft.route('/'+name+'-execute-build/*').post(async(req,res)=>{
 try{
     if(typeof req.body.account=="undefined"||req.body.account.includes("1111111111111111111111")){res.json(await mcswap.dummy(rpc));}
     else{
@@ -166,7 +166,7 @@ catch(err){
     res.status(400).json(_err_);
 }
 });
-mcswap_nft.route('/'+name+'-complete').post(async function(req,res){
+mcswap_nft.route('/'+name+'-complete').post(async(req,res)=>{
     const obj = {}
     const line = "\r\n";
     let details = "";
@@ -195,7 +195,7 @@ mcswap_nft.route('/'+name+'-complete').post(async function(req,res){
     res.json(obj);
 });
 // *********************************************************************************
-mcswap_nft.get('/'+name+'-create',async(req,res)=>{
+mcswap_nft.all('/'+name+'-create',async(req,res)=>{
     const line = "\r\n";
     let details = "This form creates a sales contract for your asset."+line+"Minimum one of the (optional) fields is required.";
     const obj = {}
@@ -237,11 +237,11 @@ mcswap_nft.get('/'+name+'-create',async(req,res)=>{
     obj.label = "Create";
     obj.links = {"actions":[{"label":"Create","href":host+"/"+name+"-create-build","parameters":form}]};
     obj.icon = "https://mcswap.xyz/img/mcswap-card.png";
-    obj.title = "Sell a "+standard+" Standard Asset";
+    obj.title = "Sell a "+standard+" Asset";
     obj.description = details;
     res.json(obj);
 });
-mcswap_nft.route('/'+name+'-create-build').post(async function(req,res){
+mcswap_nft.route('/'+name+'-create-build').post(async(req,res)=>{
 try{
     if(typeof req.body.account=="undefined"||req.body.account.includes("1111111111111111111111")){res.json(await mcswap.dummy(rpc));}
     else{
@@ -321,7 +321,7 @@ catch(err){
     res.status(400).json(_err_);
 }
 });
-mcswap_nft.route('/'+name+'-create-complete').post(async function(req,res){
+mcswap_nft.route('/'+name+'-create-complete').post(async(req,res)=>{
     const obj = {}
     const line = "\r\n";
     let details = "";
@@ -360,7 +360,7 @@ mcswap_nft.route('/'+name+'-create-complete').post(async function(req,res){
     res.json(obj);
 });
 // *********************************************************************************
-mcswap_nft.route('/'+name+'-invalid').post(async function(req,res){
+mcswap_nft.route('/'+name+'-invalid').post(async(req,res)=>{
     res.status(400).json({"message":"invalid contract"});
 });
 // *********************************************************************************
