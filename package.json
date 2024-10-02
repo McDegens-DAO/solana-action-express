@@ -10,6 +10,7 @@
     },
     "dependencies": {
         "@metaplex-foundation/mpl-bubblegum": "^4.1.0",
+        "@solana/actions": "^1.6.5",
         "@solana/buffer-layout": "^4.0.1",
         "@solana/spl-account-compression": "^0.2.1",
         "@solana/spl-token": "^0.3.11",

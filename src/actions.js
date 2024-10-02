@@ -54,6 +54,10 @@ import { mcswap_cnft } from './actions/mcswap_cnft.js';
 app.use("/", mcswap_cnft);
 import { mcswap_spl } from './actions/mcswap_spl.js';
 app.use("/", mcswap_spl);
+import { mcswap_start } from './actions/mcswap_start.js';
+app.use("/", mcswap_start);
+import { mcsend } from './actions/mcsend.js';
+app.use("/", mcsend);
 // include actions
 // *********************************************************************************
 

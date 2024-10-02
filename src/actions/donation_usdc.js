@@ -4,15 +4,15 @@
 import {rpc,host} from '../config.js';
 import {Connection,PublicKey} from "@solana/web3.js";
 import * as splToken from "@solana/spl-token";
-import mcbuild from '../mcbuild/mcbuild.js';
+import mcswap from 'mcswap-js';
 import Express from 'express';
-var donation_usdc = Express.Router();
+const donation_usdc = Express.Router();
 // *********************************************************************************
 
 // *********************************************************************************
 // usdc donation config
 donation_usdc.get('/donate-usdc-config',(req,res)=>{
-let obj = {}
+const obj = {}
     obj.icon = "https://mcdegen.xyz/images/pfp-416-usdc.png";
     obj.title = "Donate USDC to McDegens DAO";
     obj.description = "Enter USDC amount and click Send";
@@ -31,7 +31,7 @@ let obj = {}
         }
         ]
     }
-    res.send(JSON.stringify(obj));
+    res.json(obj);
 });
 // *********************************************************************************
 
@@ -120,9 +120,9 @@ _tx_.tolerance = 1.2;               // int    : default 1.1
 _tx_.compute = false;               // bool   : default true
 _tx_.fees = false;                  // bool   : default true : helius rpc required when true
 _tx_.priority = req.query.priority; // string : VeryHigh,High,Medium,Low,Min : default Medium
-let tx = await mcbuild.tx(_tx_);    // package the tx
+let tx = await mcswap.tx(_tx_);    // package the tx
 console.log(tx);
-res.send(JSON.stringify(tx));       // output
+res.json(obj);
 
 });
 export {donation_usdc};
