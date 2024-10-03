@@ -75,7 +75,7 @@ mcsend.get('/mcsend',(req,res)=>{
         {
             "name": "priority",
             "type": "select",
-            "label": "CSV Wallet List",
+            "label": "Priority Fee",
             "required": true,
             "options": [
                 {"label":"Very High","value":"Very High","selected":false},
