@@ -71,19 +71,6 @@ mcsend.get('/mcsend',(req,res)=>{
             "type": "textarea",
             "label": "CSV Wallet List",
             "required": true
-        },
-        {
-            "name": "priority",
-            "type": "select",
-            "label": "Priority Fee",
-            "required": true,
-            "options": [
-                {"label":"Very High","value":"Very High","selected":false},
-                {"label":"High","value":"High","selected":false},
-                {"label":"Medium","value":"Medium","selected":true},
-                {"label":"Low","value":"Low","selected":false},                
-                {"label":"Min","value":"Min","selected":false}              
-            ]
         }
     ];
     const obj = {}
@@ -114,7 +101,8 @@ else{
     _tx_.tolerance = 1.2;               // int    : default 1.1    
     _tx_.compute = false;               // bool   : default true
     _tx_.fees = false;                  // bool   : default true : helius rpc required when true
-    _tx_.priority = body.priority;      // string : VeryHigh,High,Medium,Low,Min : default Medium
+    // _tx_.priority = body.priority;      
+    // string : VeryHigh,High,Medium,Low,Min : default Medium
     const tx = await mcswap.tx(_tx_);   // package the tx
     console.log(tx);
     res.json(tx);
