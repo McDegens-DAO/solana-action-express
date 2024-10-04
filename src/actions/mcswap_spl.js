@@ -297,6 +297,7 @@ try{
                 params.convert = true;
                 params.seller = req.body.account.trim();
                 params.buyer = body.buyer.trim();
+                params.compute = false;
 
                 params.token1Mint = body.token1Mint;
                 if(typeof body.token2Mint!="undefined"){params.token2Mint=body.token2Mint;}
@@ -308,8 +309,12 @@ try{
                 params.token3Amount = body.token3Amount;
                 if(typeof body.token4Amount!="undefined"){params.token4Amount=body.token4Amount;}
 
+                console.log("params", params);
+                
                 const tx = await mcswap.splCreate(params);
                 
+                console.log("tx", tx);
+
                 if(tx.status!="ok"){
                     res.status(400).json(tx);
                 }

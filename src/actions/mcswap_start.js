@@ -29,6 +29,7 @@ mcswap_start.all('/'+name,async(req,res)=>{
         {"label":"Sell a PNFT Asset","href":host+"/"+name+"-next?choice=-pnft-create"},
         {"label":"Sell a CNFT Asset","href":host+"/"+name+"-next?choice=-cnft-create"},
         {"label":"Sell a CORE Asset","href":host+"/"+name+"-next?choice=-core-create"},
+        {"label":"Sell SPL Tokens","href":host+"/"+name+"-next?choice=-spl-create"},
         {"label":"Find a Contract","href":host+"/"+name+"-next?choice=-finder"}
     ]};
     obj.label = "McSwap";
@@ -41,6 +42,7 @@ mcswap_start.route('/'+name+'-next').post(async(req,res)=>{
 try{
     if(typeof req.body.account=="undefined"||req.body.account.includes("1111111111111111111111")){res.json(await mcswap.dummy(rpc));}
     else{
+        console.log("query", req.query);
         if(req.query.choice=="home"){req.query.choice="";}
         const next = {next:{type:"post",href:host+"/"+name+req.query.choice}};
         const transaction = await MemoTx(new PublicKey(req.body.account));
@@ -71,7 +73,8 @@ mcswap_start.route('/'+name+'-finder').post(async(req,res)=>{
                 {"label":"NFT","value":"NFT","selected":true},
                 {"label":"PNFT","value":"PNFT","selected":false},
                 {"label":"CNFT","value":"CNFT","selected":false},
-                {"label":"CORE","value":"CORE","selected":false}                
+                {"label":"CORE","value":"CORE","selected":false},                
+                {"label":"SPL","value":"SPL","selected":false}
             ]
         },
         {
@@ -193,7 +196,8 @@ mcswap_start.route('/'+name+'-result').post(async(req,res)=>{
                 {"label":"NFT","value":"NFT","selected":selected_nft},
                 {"label":"PNFT","value":"PNFT","selected":selected_pnft},
                 {"label":"CNFT","value":"CNFT","selected":selected_cnft},
-                {"label":"CORE","value":"CORE","selected":selected_core}                
+                {"label":"CORE","value":"CORE","selected":selected_core},            
+                {"label":"SPL","value":"SPL","selected":selected_spl}                
             ]
         },
         {
@@ -219,8 +223,13 @@ mcswap_start.route('/'+name+'-result').post(async(req,res)=>{
         items.sort((a, b) => b.utime - a.utime);
         for(let i=0;i<items.length;i++){
             let contract = items[i];
-            if(contract.buyerMint.includes("11111111111111111111")){contract.buyerMint="";}
-            actions.push({"label":"Open Contract #"+contract.utime,"href":host+"/"+name+"-next?choice=-"+standard.toLowerCase()+"-config/"+contract.sellerMint+"-"+contract.buyerMint});
+            if(standard!="SPL"){
+                if(contract.buyerMint.includes("11111111111111111111")){contract.buyerMint="";}
+                actions.push({"label":"Open Contract #"+contract.utime,"href":host+"/"+name+"-next?choice=-"+standard.toLowerCase()+"-config/"+contract.sellerMint+"-"+contract.buyerMint});
+            }
+            else{
+                actions.push({"label":"Open Contract #"+contract.utime,"href":host+"/"+name+"-next?choice=-"+standard.toLowerCase()+"-config/"+contract.seller+"-"+contract.buyer});
+            }
             let date = new Date(contract.utime*1000);
             let month = date.getMonth();
             let day = date.getDate(); 

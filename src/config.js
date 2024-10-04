@@ -5,7 +5,7 @@ import 'dotenv/config'
 // server settings
 var host = ""; // your live domain
 host = "http://localhost"; // comment out before production deployment
-var auto = "mcsend"; // dial.to test window : ignored in production
+var auto = "mcswap"; // dial.to test window : ignored in production
 // *********************************************************************************
 
 // *********************************************************************************
@@ -22,6 +22,7 @@ var rules = {"rules":[
 {"pathPattern":"/mcswap-pnft-create","apiPath":host+"/mcswap-pnft-create"},
 {"pathPattern":"/mcswap-cnft-create","apiPath":host+"/mcswap-cnft-create"},
 {"pathPattern":"/mcswap-core-create","apiPath":host+"/mcswap-core-create"},
+{"pathPattern":"/mcswap-spl-create","apiPath":host+"/mcswap-spl-create"},
 {"pathPattern":"/mcswap","apiPath":host+"/mcswap"},
 ]};
 // *********************************************************************************

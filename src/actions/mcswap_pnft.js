@@ -29,7 +29,7 @@ mcswap_pnft.all('/'+name+'-config/*',async(req,res)=>{
         const params = {"rpc":rpc}
         params.display = true;
         params.sellerMint = ids[0];
-        params.buyerMint = ids[1];
+        if(ids[1]!=""){params.buyerMint = ids[1];}
         params.standard = standard.toLowerCase();
         const contract = await mcswap.fetch(params);
         if(typeof contract.buyer=="undefined"||typeof contract.seller=="undefined"||typeof contract.buyerMint=="undefined"){
@@ -88,7 +88,7 @@ try{
             params.blink = true;
             params.seller = req.body.account;
             params.sellerMint = ids[0];
-            params.buyerMint = ids[1];
+            if(ids[1]!=""){params.buyerMint = ids[1];}
             const tx = await mcswap.pnftCancel(params);
             if(tx.status=="error"){
                 if(typeof tx.logs!="undefined"&&tx.logs.includes('Program log: CERROR: Invalid initializer')){
@@ -139,7 +139,7 @@ try{
             params.blink = true;
             params.buyer = req.body.account;
             params.sellerMint = ids[0];
-            params.buyerMint = ids[1];
+            if(ids[1]!=""){params.buyerMint = ids[1];}
             const tx = await mcswap.pnftExecute(params);
             if(tx.status=="error"){
                 if(typeof tx.logs!="undefined"&&tx.logs.includes('Program log: Incorrect account owner')){
