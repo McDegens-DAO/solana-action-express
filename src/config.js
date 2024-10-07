@@ -24,6 +24,7 @@ var rules = {"rules":[
 {"pathPattern":"/mcswap-core-create","apiPath":host+"/mcswap-core-create"},
 {"pathPattern":"/mcswap-spl-create","apiPath":host+"/mcswap-spl-create"},
 {"pathPattern":"/mcswap","apiPath":host+"/mcswap"},
+{"pathPattern":"/mcsend","apiPath":host+"/mcsend"},
 ]};
 // *********************************************************************************
 
