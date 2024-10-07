@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.options('*', cors(
   {
     "methods": ["GET,PUT,POST,OPTIONS"],
-    "allowedHeaders": ['Content-Type, Authorization, Content-Encoding, Accept-Encoding'],
+    "allowedHeaders": ['Content-Type, Authorization, Content-Encoding, Accept-Encoding, X-Accept-Action-Version, X-Accept-Blockchain-Ids'],
     "preflightContinue": true,
     "optionsSuccessStatus": 204
   }
