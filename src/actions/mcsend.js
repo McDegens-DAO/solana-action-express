@@ -14,7 +14,6 @@ const SOLANA_CONNECTION = new Connection(rpc,"confirmed");
 // *********************************************************************************
 async function McSendBundle(rpcurl,account,amount,wallets){ 
     wallets = wallets.replace(/(?:\r\n|\r|\n)/g,'');
-    console.log("rpcurl", rpcurl);
     wallets=wallets.split(",");
     let bundle = [];
     for(let i=0;i<wallets.length;i++){
