@@ -56,7 +56,7 @@ async function McSendBundle(rpcurl,account,amount,wallets){
 // *********************************************************************************
 
 // *********************************************************************************
-// usdc donation config
+// mcsend config
 mcsend.get('/mcsend',(req,res)=>{
     const form = [
         {
@@ -83,7 +83,7 @@ mcsend.get('/mcsend',(req,res)=>{
 // *********************************************************************************
 
 // *********************************************************************************
-// usdc donation tx 
+// mcsend tx
 mcsend.route('/mcsend-build').post(async(req,res)=>{
 try{if(typeof req.body.account=="undefined"||req.body.account.includes("1111111111111111111111")){res.json(await mcswap.dummy(rpc));}
 else{
