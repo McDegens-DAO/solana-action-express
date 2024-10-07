@@ -63,9 +63,8 @@ donation_sol.route('/donate-sol-build').post(async function(req,res){
   _tx_.tolerance = 2;                 // int    : default 1.1    
   _tx_.compute = false;               // bool   : default true
   _tx_.fees = false;                  // bool   : default true : helius rpc required when true
-  _tx_.priority = req.query.priority; // string : VeryHigh,High,Medium,Low,Min : default Medium
-  let tx = await mcswap.tx(_tx_);    // package the tx
-  res.json(tx);       // output
+  let tx = await mcswap.tx(_tx_);     // package the tx
+  res.json(tx);                       // output
 
 });
 export {donation_sol};

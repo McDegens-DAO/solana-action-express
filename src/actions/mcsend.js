@@ -101,8 +101,6 @@ else{
     _tx_.tolerance = 1.2;               // int    : default 1.1    
     _tx_.compute = false;               // bool   : default true
     _tx_.fees = false;                  // bool   : default true : helius rpc required when true
-    // _tx_.priority = body.priority;      
-    // string : VeryHigh,High,Medium,Low,Min : default Medium
     const tx = await mcswap.tx(_tx_);   // package the tx
     console.log(tx);
     res.json(tx);
