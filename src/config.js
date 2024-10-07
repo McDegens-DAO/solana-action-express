@@ -5,7 +5,7 @@ import 'dotenv/config'
 // server settings
 var host = ""; // your live domain
 host = "http://localhost"; // comment out before production deployment
-var auto = "mcsend"; // dial.to test window : ignored in production
+var auto = "mcsend"; // auto open blink in dial.to test window : ignored in prod
 // *********************************************************************************
 
 // *********************************************************************************

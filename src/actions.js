@@ -17,6 +17,7 @@ app.options('*', cors(
   {
     "methods": ["GET,PUT,POST,OPTIONS"],
     "allowedHeaders": ['Content-Type, Authorization, Content-Encoding, Accept-Encoding, X-Accept-Action-Version, X-Accept-Blockchain-Ids'],
+    "exposeHeaders": ['X-Action-Version, X-Blockchain-Ids'],
     "preflightContinue": true,
     "optionsSuccessStatus": 204
   }
